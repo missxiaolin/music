@@ -1,6 +1,6 @@
 <template>
   <div class="recommend" ref="recommend">
-    <Scroll ref="scroll" class="recommend-content" :data="discList">
+    <Scroll ref="scroll" class="recommend-content" :data="discList" :pulldown="pulldown" @pulldown="_getDiscList">
       <div>
         <div v-if="recommends.length > 0" class="slider-wrapper">
           <slider>
@@ -50,6 +50,7 @@ export default {
     return {
       recommends: [], // 推荐数据
       discList: [], // 列表
+      pulldown: true
     }
   },
   created() {

@@ -23,7 +23,12 @@ export default {
     data: {
       type: Array,
       default: null
-    }
+    },
+    // 是否派发顶部下拉的事件，用于下拉刷新
+    pulldown: {
+      type: Boolean,
+      default: false
+    },
   },
   mounted() {
     setTimeout(() => {
@@ -40,6 +45,16 @@ export default {
         probeType: this.probeType,
         click: this.click
       })
+
+      // 是否派发顶部下拉事件，用于下拉刷新
+      if (this.pulldown) {
+        this.scroll.on('touchend', (pos) => {
+          // 下拉动作
+          if (pos.y > 50) {
+            this.$emit('pulldown')
+          }
+        })
+      }
     },
     disable() {
       this.scroll && this.scroll.disable()
