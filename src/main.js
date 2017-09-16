@@ -4,23 +4,22 @@ import 'babel-polyfill'
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import fastclick from 'fastclick'
 
 Vue.config.productionTip = false
 
-// 解决移动端300毫秒点击延迟
-import fastclick from 'fastclick'
-
 import 'common/stylus/index.styl'
+
+/* eslint-disable no-unused-vars */
+// import vConsole from 'vconsole'
 
 fastclick.attach(document.body)
 
-
-
-
+// fastclick.attach(document.body)
 /* eslint-disable no-new */
 new Vue({
-  el: '#app',
-  router,
-  template: '<App/>',
-  components: { App }
+    el: '#app',
+    router,
+    template: '<App/>',
+    components: {App}
 })

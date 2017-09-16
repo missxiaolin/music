@@ -1,16 +1,20 @@
 <template>
-  <div id="app">
-    <router-view></router-view>
-  </div>
+    <div id="app">
+        <MHeader></MHeader>
+    </div>
 </template>
 
-<script>
-export default {
-  name: 'app'
-}
+<script type="text/ecmascript-6">
+    import MHeader from 'components/m-header/m-header'
+    export default {
+        name: 'app',
+        components: {
+            MHeader
+        }
+    }
 </script>
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
-  @import "common/stylus/variable.styl";
+    @import "common/stylus/variable.styl";
 
 </style>
