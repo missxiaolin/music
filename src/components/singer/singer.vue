@@ -1,6 +1,7 @@
 <template>
   <div class="singer" ref="singer">
     <ListView @select="selectSinger" :data="singers" ref="list"></ListView>
+    <router-view></router-view>
   </div>
 </template>
 
@@ -34,9 +35,11 @@ export default {
     },
     selectSinger(singer) {
       this.$router.push({
-        path: `/singer/${singer.id}`
+        name: 'singerDetail',
+        params: {
+          id: singer.id
+        }
       })
-      this.setSinger(singer)
     },
     // 格式化数组
     _normalizeSinger(list) {
