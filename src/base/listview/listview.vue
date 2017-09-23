@@ -1,5 +1,10 @@
 <template>
-  <scroll @scroll="scroll" :listen-scroll="listenScroll" :probe-type="probeType" :data="data" class="listview" ref="listview">
+  <scroll @scroll="scroll"
+          :listen-scroll="listenScroll"
+          :probe-type="probeType"
+          :data="data"
+          class="listview"
+          ref="listview">
     <ul>
       <li v-for="group in data" class="list-group" ref="listGroup">
         <h2 class="list-group-title">{{group.title}}</h2>
@@ -83,6 +88,7 @@ export default {
 
       this._scrollTo(anchorIndex)
     },
+    // 触碰字母事件(移动)
     onShortcutTouchMove(e) {
       let firstTouch = e.touches[0]
       this.touch.y2 = firstTouch.pageY
@@ -94,9 +100,11 @@ export default {
     refresh() {
       this.$refs.listview.refresh()
     },
+    // 给scroll
     scroll(pos) {
       this.scrollY = pos.y
     },
+    // 计算高度
     _calculateHeight() {
       this.listHeight = []
       const list = this.$refs.listGroup
@@ -108,6 +116,7 @@ export default {
         this.listHeight.push(height)
       }
     },
+    // 滚动到相应位置
     _scrollTo(index) {
       if (!index && index !== 0) {
         return
@@ -122,11 +131,13 @@ export default {
     }
   },
   watch: {
+    // 监听data
     data() {
       setTimeout(() => {
         this._calculateHeight()
       }, 20)
     },
+    // 监听滚动y坐标
     scrollY(newY) {
       const listHeight = this.listHeight
       // 当滚动到顶部，newY>0

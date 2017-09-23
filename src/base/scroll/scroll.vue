@@ -29,6 +29,11 @@ export default {
       type: Boolean,
       default: false
     },
+    // 是否监听滚动时间
+    listenScroll: {
+      type: Boolean,
+      default: false
+    },
   },
   mounted() {
     setTimeout(() => {
@@ -53,6 +58,14 @@ export default {
           if (pos.y > 50) {
             this.$emit('pulldown')
           }
+        })
+      }
+
+      // 监听滚动事件
+      if (this.listenScroll) {
+        let me = this
+        this.scroll.on('scroll', (pos) => {
+          me.$emit('scroll', pos)
         })
       }
     },
