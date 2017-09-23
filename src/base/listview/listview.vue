@@ -42,11 +42,13 @@ export default {
     }
   },
   computed: {
+    // 右侧字母
     shortcutList() {
       return this.data.map((group) => {
         return group.title.substr(0, 1)
       })
     },
+    // 标题
     fixedTitle() {
       if (this.scrollY > 0) {
         return ''
@@ -71,8 +73,10 @@ export default {
     selectItem(item) {
       this.$emit('select', item)
     },
+    // 触碰字母事件
     onShortcutTouchStart(e) {
       let anchorIndex = getData(e.target, 'index')
+
       let firstTouch = e.touches[0]
       this.touch.y1 = firstTouch.pageY
       this.touch.anchorIndex = anchorIndex
