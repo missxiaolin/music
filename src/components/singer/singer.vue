@@ -1,13 +1,15 @@
 <template>
   <div class="singer" ref="singer">
-    歌手
+    <ListView @select="selectSinger" :data="singers" ref="list"></ListView>
   </div>
 </template>
 
 <script>
+import ListView from 'base/listview/listview'
 import { getSingerList } from 'api/singer'
 import Singer from 'common/js/singer'
 import { ERR_OK } from 'api/config'
+
 
 const HOT_SINGER_LEN = 10
 const HOT_NAME = '热门'
@@ -27,9 +29,14 @@ export default {
       getSingerList().then((res) => {
         if (res.code === ERR_OK) {
           this.singers = this._normalizeSinger(res.data.list)
-          console.log(this.singers)
         }
       })
+    },
+    selectSinger(singer) {
+      this.$router.push({
+        path: `/singer/${singer.id}`
+      })
+      this.setSinger(singer)
     },
     // 格式化数组
     _normalizeSinger(list) {
@@ -74,6 +81,9 @@ export default {
       })
       return hot.concat(ret)
     },
+  },
+  components: {
+    ListView
   }
 }
 
