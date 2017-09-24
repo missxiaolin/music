@@ -11,6 +11,8 @@ import { getSingerList } from 'api/singer'
 import Singer from 'common/js/singer'
 import { ERR_OK } from 'api/config'
 
+import {mapMutations} from 'vuex'
+
 
 const HOT_SINGER_LEN = 10
 const HOT_NAME = '热门'
@@ -33,6 +35,7 @@ export default {
         }
       })
     },
+    // 跳转到歌手详情
     selectSinger(singer) {
       this.$router.push({
         name: 'singerDetail',
@@ -40,6 +43,7 @@ export default {
           id: singer.id
         }
       })
+      this.setSinger(singer);
     },
     // 格式化数组
     _normalizeSinger(list) {
@@ -84,6 +88,9 @@ export default {
       })
       return hot.concat(ret)
     },
+    ...mapMutations({
+      setSinger: 'SET_SINGER'
+    })
   },
   components: {
     ListView
