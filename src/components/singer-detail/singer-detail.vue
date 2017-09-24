@@ -9,8 +9,15 @@ import { mapGetters } from 'vuex'
 import { getSingerDetail } from 'api/singer'
 import { ERR_OK } from 'api/config'
 
+import {createSong} from 'common/js/song'
+
 export default {
   name: 'singer-detail',
+  data() {
+    return {
+      songs: []
+    }
+  },
   computed: {
     ...mapGetters([
       'singer'
@@ -20,6 +27,7 @@ export default {
     this._getDetail()
   },
   methods: {
+    // 获取详情
     _getDetail() {
       if (!this.singer.id) {
         this.$router.replace('/singer')
@@ -27,10 +35,20 @@ export default {
       }
       getSingerDetail(this.singer.id).then((res) => {
         if (res.code === ERR_OK) {
-          console.log(res)
-          // this.songs = this._normalizeSongs(res.data.list)
+          this.songs = this._normalizeSongs(res.data.list)
         }
       })
+    },
+    // 初始化列表
+    _normalizeSongs(list) {
+      let ret = []
+      list.forEach((item) => {
+        let { musicData } = item
+        if (musicData.songid && musicData.albummid) {
+          ret.push(createSong(musicData))
+        }
+      })
+      return ret
     }
   }
 }
