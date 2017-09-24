@@ -5,7 +5,9 @@
 </template>
 
 <script type="text/ecmascript-6">
-import {mapGetters} from 'vuex'
+import { mapGetters } from 'vuex'
+import { getSingerDetail } from 'api/singer'
+import { ERR_OK } from 'api/config'
 
 export default {
   name: 'singer-detail',
@@ -14,8 +16,22 @@ export default {
       'singer'
     ])
   },
-  created(){
-    console.log(this.singer)
+  created() {
+    this._getDetail()
+  },
+  methods: {
+    _getDetail() {
+      if (!this.singer.id) {
+        this.$router.replace('/singer')
+        return
+      }
+      getSingerDetail(this.singer.id).then((res) => {
+        if (res.code === ERR_OK) {
+          console.log(res)
+          // this.songs = this._normalizeSongs(res.data.list)
+        }
+      })
+    }
   }
 }
 </script>
