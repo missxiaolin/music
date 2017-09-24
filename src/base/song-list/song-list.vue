@@ -1,7 +1,12 @@
 <template>
   <div class="song-list">
     <ul>
-      <li></li>
+      <li v-for="song in songs" class="item">
+        <div class="content">
+          <h2 class="name">{{song.name}}</h2>
+          <p class="desc">{{getDesc(song)}}</p>
+        </div>
+      </li>
     </ul>
   </div>
 </template>
@@ -19,7 +24,10 @@
       }
     },
     methods: {
-
+      // desc
+      getDesc(song) {
+        return `${song.singer}·${song.album}`
+      },
     }
   }
 </script>

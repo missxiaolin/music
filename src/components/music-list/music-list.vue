@@ -9,10 +9,19 @@
 
       </div>
     </div>
+    <scroll :data="songs" class="list" ref="list">
+      <div class="song-list-wrapper">
+        <SongList :songs="songs"></SongList>
+      </div>
+    </scroll>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
+import Scroll from 'base/scroll/scroll'
+import Loading from 'base/loading/loading'
+import SongList from 'base/song-list/song-list'
+
 export default {
   props: {
     bgImage: {
@@ -29,9 +38,20 @@ export default {
     }
   },
   computed: {
+    // 背景图
     bgStyle() {
       return `background-image:url(${this.bgImage})`
-    }
+    },
+
+  },
+  mounted() {
+    this.imageHeight = this.$refs.bgImage.clientHeight
+    this.$refs.list.$el.style.top = `${this.imageHeight}px`
+  },
+  components: {
+    Scroll,
+    Loading,
+    SongList
   }
 }
 </script>
@@ -71,6 +91,7 @@ export default {
       color: $color-text
     .bg-image
       position: relative
+      z-index: 20
       width: 100%
       height: 0
       padding-top: 70%
