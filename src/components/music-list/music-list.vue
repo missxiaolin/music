@@ -9,7 +9,8 @@
 
       </div>
     </div>
-    <scroll :data="songs" class="list" ref="list">
+    <div class="bg-layer" ref="layer"></div>
+    <scroll @scroll="scroll" :data="songs" :probe-type="probeType" :listen-scroll="listenScroll" class="list" ref="list">
       <div class="song-list-wrapper">
         <SongList :songs="songs"></SongList>
       </div>
@@ -21,6 +22,8 @@
 import Scroll from 'base/scroll/scroll'
 import Loading from 'base/loading/loading'
 import SongList from 'base/song-list/song-list'
+
+const RESERVED_HEIGHT = 40
 
 export default {
   props: {
@@ -37,6 +40,11 @@ export default {
       default: ''
     }
   },
+  data() {
+    return {
+      scrollY: 0
+    }
+  },
   computed: {
     // 背景图
     bgStyle() {
@@ -44,9 +52,38 @@ export default {
     },
 
   },
+  created() {
+    this.probeType = 3;
+    this.listenScroll = true;
+  },
   mounted() {
-    this.imageHeight = this.$refs.bgImage.clientHeight
-    this.$refs.list.$el.style.top = `${this.imageHeight}px`
+    this.imageHeight = this.$refs.bgImage.clientHeight;
+    this.minTransalteY = -this.imageHeight + RESERVED_HEIGHT;
+    this.$refs.list.$el.style.top = `${this.imageHeight}px`;
+  },
+  methods: {
+    // 监听滚动
+    scroll(pos) {
+      this.scrollY = pos.y;
+    }
+  },
+  watch: {
+    // 动画效果（监听Y轴变化）
+    scrollY(newVal) {
+      let translateY = Math.max(this.minTransalteY, newVal);
+      let zIndex = 0;
+      this.$refs.layer.style['transform'] = `translate3d(0,${translateY}px,0)`;
+      this.$refs.layer.style['webkitTransform'] = `translate3d(0,${translateY}px,0)`;
+      if (newVal < this.minTransalteY) {
+        zIndex = 10;
+        this.$refs.bgImage.style.paddingTop = 0;
+        this.$refs.bgImage.style.height = `${RESERVED_HEIGHT}px`;
+      } else {
+        this.$refs.bgImage.style.paddingTop = '70%';
+        this.$refs.bgImage.style.height = 0;
+      }
+      this.$refs.bgImage.style.zIndex = zIndex;
+    },
   },
   components: {
     Scroll,
@@ -91,7 +128,6 @@ export default {
       color: $color-text
     .bg-image
       position: relative
-      z-index: 20
       width: 100%
       height: 0
       padding-top: 70%
