@@ -70,20 +70,25 @@ export default {
       }
     },
     disable() {
+      // 代理better-scroll的disable方法
       this.scroll && this.scroll.disable()
     },
     enable() {
+      // 代理better-scroll的enable方法
       this.scroll && this.scroll.enable()
     },
     refresh() {
+      // 代理better-scroll的refresh方法
       this.scroll && this.scroll.refresh()
     },
     // 滚动到相应位置
     scrollTo() {
+      // 代理better-scroll的scrollTo方法
       this.scroll && this.scroll.scrollTo.apply(this.scroll, arguments)
     },
     // 滚动到相应位置
     scrollToElement() {
+      // 代理better-scroll的scrollToElement方法
       this.scroll && this.scroll.scrollToElement.apply(this.scroll, arguments)
     }
   },

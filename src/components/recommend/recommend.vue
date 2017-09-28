@@ -1,7 +1,8 @@
 <template>
   <div class="recommend" ref="recommend">
-    <Scroll ref="scroll" class="recommend-content" :data="discList" :pulldown="pulldown" @pulldown="_getDiscList">
+    <Scroll ref="scroll" @scroll="scroll" :listen-scroll="listenScroll" :probe-type="probeType" class="recommend-content" :data="discList" :pulldown="pulldown" @pulldown="_getDiscList">
       <div>
+        <div class="pull-down" v-show="pullDownShow">下啦刷新</div>
         <div v-if="recommends.length > 0" class="slider-wrapper">
           <slider>
             <div v-for="item in recommends">
@@ -50,7 +51,11 @@ export default {
     return {
       recommends: [], // 推荐数据
       discList: [], // 列表
-      pulldown: true
+      pulldown: true,
+      pullDownShow: false,
+      scrollY: 0, // 滚动列表
+      probeType: 3,
+      listenScroll: true
     }
   },
   created() {
@@ -58,6 +63,10 @@ export default {
     this._getDiscList()
   },
   methods: {
+    // 监听滚动
+    scroll(pos) {
+      this.scrollY = pos.y;
+    },
     // 轮播图数据
     _getRecommend() {
       getRecommend().then((res) => {
@@ -68,9 +77,13 @@ export default {
     },
     // 获取歌单
     _getDiscList() {
+      let that = this;
       getDiscList().then((res) => {
         if (res.code === ERR_OK) {
           this.discList = res.data.list
+          setTimeout(function() {
+            that.pullDownShow = false
+          }, 2000)
         }
       })
     },
@@ -79,6 +92,13 @@ export default {
       if (!this.checkloaded) {
         this.checkloaded = true
         this.$refs.scroll.refresh()
+      }
+    }
+  },
+  watch: {
+    scrollY(newVal) {
+      if (newVal > 60) {
+        this.pullDownShow = true
       }
     }
   },
@@ -98,6 +118,9 @@ export default {
     width: 100%
     top: 88px
     bottom: 0
+    .pull-down
+      text-align center
+      padding 10px 0
     .recommend-content
       height: 100%
       overflow: hidden
