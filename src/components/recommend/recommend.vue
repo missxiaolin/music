@@ -1,8 +1,10 @@
 <template>
   <div class="recommend" ref="recommend">
-    <Scroll ref="scroll" @scroll="scroll" :listen-scroll="listenScroll" :probe-type="probeType" class="recommend-content" :data="discList" :pulldown="pulldown" @pulldown="_getDiscList">
+    <Scroll ref="scroll" @scroll="scroll" :listen-scroll="listenScroll" :probe-type="probeType" class="recommend-content" :data="discList" :pulldown="pulldown" @pulldown="_getDiscList(true)">
       <div>
-        <div class="pull-down" v-show="pullDownShow">下啦刷新</div>
+        <div class="pull-down" v-show="pullDownShow">
+          <loading></loading>
+        </div>
         <div v-if="recommends.length > 0" class="slider-wrapper">
           <slider>
             <div v-for="item in recommends">
@@ -76,8 +78,9 @@ export default {
       })
     },
     // 获取歌单
-    _getDiscList() {
+    _getDiscList(pullDownShow = false) {
       let that = this;
+      this.pullDownShow = pullDownShow
       getDiscList().then((res) => {
         if (res.code === ERR_OK) {
           this.discList = res.data.list
@@ -97,9 +100,10 @@ export default {
   },
   watch: {
     scrollY(newVal) {
-      if (newVal > 60) {
-        this.pullDownShow = true
-      }
+      // if (newVal > 60) {
+      //   this.pullDownShow = true
+      // }
+
     }
   },
   components: {
