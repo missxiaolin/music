@@ -1,7 +1,7 @@
 <template>
   <div class="recommend" ref="recommend">
     <Scroll ref="scroll" @scroll="scroll" :listen-scroll="listenScroll" :probe-type="probeType" class="recommend-content" :data="discList" :pulldown="pulldown" @pulldown="_getDiscList(true)">
-      <div>
+      <div class="scroll-box">
         <div class="pull-down" v-show="pullDownShow">
           <loading></loading>
         </div>
@@ -122,9 +122,11 @@ export default {
     width: 100%
     top: 88px
     bottom: 0
-    .pull-down
-      text-align center
-      padding 10px 0
+    .scroll-box
+      position: relative
+      .pull-down
+        text-align: center
+        padding: 10px 0
     .recommend-content
       height: 100%
       overflow: hidden
