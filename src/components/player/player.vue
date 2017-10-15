@@ -50,7 +50,7 @@
         </div>
       </div>
     </div>
-    <div class="mini-player" v-show="!fullScreen">
+    <div class="mini-player" v-show="!fullScreen" @click="open">
       <div class="icon">
         <img :src="currentSong.image" alt="" width="100%" height="100%">
       </div>
@@ -69,7 +69,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-import { mapGetters } from 'vuex'
+import { mapGetters,mapMutations } from 'vuex'
 export default {
   data() {
     return {
@@ -86,8 +86,15 @@ export default {
   methods: {
     // 后退
     back() {
-
-    }
+      this.setFullScreen(false)
+    },
+    // 打开
+    open(){
+      this.setFullScreen(true)
+    },
+    ...mapMutations({
+      setFullScreen: 'SET_FULL_SCREEN'
+    })
   }
 }
 </script>
