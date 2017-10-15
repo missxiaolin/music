@@ -15,7 +15,7 @@
         <div class="middle">
           <div class="middle-l" ref="middleL">
             <div class="cd-wrapper" ref="cdWrapper">
-              <div class="cd">
+              <div class="cd" :class="cdCls">
                 <img :src="currentSong.image" alt="" class="image">
               </div>
             </div>
@@ -40,7 +40,7 @@
               <i class="icon-prev"></i>
             </div>
             <div class="icon i-center">
-              <i class="icon-play" @click="tooglePlaying"></i>
+              <i :class="playIcon" @click="tooglePlaying"></i>
             </div>
             <div class="icon i-right">
               <i class="icon-next"></i>
@@ -55,14 +55,14 @@
     <transition name="mini">
       <div class="mini-player" v-show="!fullScreen" @click="open">
         <div class="icon">
-          <img :src="currentSong.image" alt="" width="100%" height="100%">
+          <img :class="cdCls" :src="currentSong.image" alt="" width="100%" height="100%">
         </div>
         <div class="text">
           <h2 class="name" v-html="currentSong.name"></h2>
           <p class="desc" v-html="currentSong.singer"></p>
         </div>
         <div class="control">
-          <i class="icon-mini"></i>
+          <i @click.stop="tooglePlaying" :class="miniIcon"></i>
         </div>
         <div class="control">
           <i class="icon-playlist"></i>
@@ -87,6 +87,18 @@ export default {
     }
   },
   computed: {
+    // 页面播放按钮
+    playIcon() {
+      return this.playing ? 'icon-pause' : 'icon-play'
+    },
+    // 底部播放按钮
+    miniIcon() {
+      return this.playing ? 'icon-pause-mini' : 'icon-play-mini'
+    },
+    // 旋转
+    cdCls() {
+      return this.playing ? 'play' : 'play pause'
+    },
     ...mapGetters([
       'fullScreen',
       'playlist',
