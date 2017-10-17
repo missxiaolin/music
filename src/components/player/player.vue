@@ -36,13 +36,13 @@
             <div class="icon i-left">
               <i class="icon-sequence"></i>
             </div>
-            <div class="icon i-left">
+            <div class="icon i-left" :class="diableCls">
               <i @click="prev" class="icon-prev"></i>
             </div>
             <div class="icon i-center">
               <i :class="playIcon" @click="tooglePlaying"></i>
             </div>
-            <div class="icon i-right">
+            <div class="icon i-right" :class="diableCls">
               <i @click="next" class="icon-next"></i>
             </div>
             <div class="icon i-right">
@@ -94,6 +94,10 @@ export default {
     // 底部播放按钮
     miniIcon() {
       return this.playing ? 'icon-pause-mini' : 'icon-play-mini'
+    },
+    // 上一首下一首按钮(不可用)
+    diableCls(){
+      return this.songReady ? '' : 'disable'
     },
     // 旋转
     cdCls() {
