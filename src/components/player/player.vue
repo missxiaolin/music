@@ -37,13 +37,13 @@
               <i class="icon-sequence"></i>
             </div>
             <div class="icon i-left">
-              <i class="icon-prev"></i>
+              <i @click="prev" class="icon-prev"></i>
             </div>
             <div class="icon i-center">
               <i :class="playIcon" @click="tooglePlaying"></i>
             </div>
             <div class="icon i-right">
-              <i class="icon-next"></i>
+              <i @click="next" class="icon-next"></i>
             </div>
             <div class="icon i-right">
               <i class="icon icon-not-favorite"></i>
@@ -69,7 +69,7 @@
         </div>
       </div>
     </transition>
-    <audio ref="audio" :src="currentSong.url"></audio>
+    <audio ref="audio" :src="currentSong.url" @canplay="ready" @error="error"></audio>
   </div>
 </template>
 
@@ -83,7 +83,7 @@ const transform = prefixStyle('transform')
 export default {
   data() {
     return {
-
+      songReady: false
     }
   },
   computed: {
@@ -103,7 +103,8 @@ export default {
       'fullScreen',
       'playlist',
       'currentSong',
-      'playing'
+      'playing',
+      'currentIndex'
     ])
   },
   methods: {
@@ -161,6 +162,44 @@ export default {
     tooglePlaying() {
       this.setPlayingState(!this.playing)
     },
+    // 下一首
+    next() {
+      if (!this.songReady) {
+        return false
+      }
+      let index = this.currentIndex + 1
+      if (index == this.playlist.length) {
+        index = 0;
+      }
+      this.setCurrentIndex(index)
+      if (!this.playing) {
+        this.tooglePlaying()
+      }
+      this.songReady = false
+    },
+    // 上一首
+    prev() {
+      if (!this.songReady) {
+        return false
+      }
+      let index = this.currentIndex - 1
+      if (index == -1) {
+        index = this.playlist.length - 1;
+      }
+      this.setCurrentIndex(index)
+      if (!this.playing) {
+        this.tooglePlaying()
+      }
+      this.songReady = false
+    },
+    // 播放器
+    ready() {
+      this.songReady = true
+    },
+    // 播放器
+    error() {
+      this.songReady = true
+    },
     // 计算
     _getPosAndScale() {
       const targetWidth = 40
@@ -180,7 +219,8 @@ export default {
     // 引入
     ...mapMutations({
       setFullScreen: 'SET_FULL_SCREEN',
-      setPlayingState: 'SET_PLAYING_STATE'
+      setPlayingState: 'SET_PLAYING_STATE',
+      setCurrentIndex: 'SET_CURRENT_INDEX'
     })
   },
   watch: {
