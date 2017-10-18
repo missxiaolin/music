@@ -60,6 +60,7 @@
         const percent = this.$refs.progress.clientWidth / barWidth
         this.$emit('percentChange', percent)
       },
+      // 宽度和小球位置
       _offset(offsetWidth) {
         this.$refs.progress.style.width = `${offsetWidth}px`
         this.$refs.progressBtn.style[transform] = `translate3d(${offsetWidth}px,0,0)`

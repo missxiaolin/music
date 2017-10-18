@@ -86,7 +86,8 @@ export default {
   data() {
     return {
       songReady: false,
-      currentTime: 0
+      currentTime: 0,
+      currentLyric: null,
     }
   },
   computed: {
@@ -102,6 +103,7 @@ export default {
     diableCls() {
       return this.songReady ? '' : 'disable'
     },
+    // 歌曲播放比例
     percent() {
       return this.currentTime / this.currentSong.duration
     },
@@ -230,6 +232,7 @@ export default {
       }
       return num
     },
+    // 播放器时间
     onProgressBarChange(percent) {
       const currentTime = this.currentSong.duration * percent
       this.$refs.audio.currentTime = currentTime
