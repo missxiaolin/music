@@ -27,10 +27,10 @@
             <span class="dot"></span>
           </div>
           <div class="progress-wrapper">
-            <span></span>
+            <span class="time time-l">{{format(currentTime)}}</span>
             <div class="progress-bar-wrapper">
             </div>
-            <span class="time time-r"></span>
+            <span class="time time-r">{{format(currentSong.duration)}}</span>
           </div>
           <div class="operators">
             <div class="icon i-left">
@@ -69,7 +69,7 @@
         </div>
       </div>
     </transition>
-    <audio ref="audio" :src="currentSong.url" @canplay="ready" @error="error"></audio>
+    <audio ref="audio" :src="currentSong.url" @canplay="ready" @error="error" @timeupdate="updateTime"></audio>
   </div>
 </template>
 
@@ -83,7 +83,8 @@ const transform = prefixStyle('transform')
 export default {
   data() {
     return {
-      songReady: false
+      songReady: false,
+      currentTime: 0
     }
   },
   computed: {
@@ -96,7 +97,7 @@ export default {
       return this.playing ? 'icon-pause-mini' : 'icon-play-mini'
     },
     // 上一首下一首按钮(不可用)
-    diableCls(){
+    diableCls() {
       return this.songReady ? '' : 'disable'
     },
     // 旋转
@@ -203,6 +204,26 @@ export default {
     // 播放器
     error() {
       this.songReady = true
+    },
+    // 时间
+    updateTime(e) {
+      this.currentTime = e.target.currentTime
+    },
+    // 格式化时间
+    format(interval) {
+      interval = interval | 0
+      const minute = interval / 60 | 0
+      const second = this._pad(interval % 60)
+      return `${minute}:${second}`
+    },
+    // 补0
+    _pad(num, n = 2) {
+      let len = num.toString().length
+      while (len < n) {
+        num = '0' + num
+        len++
+      }
+      return num
     },
     // 计算
     _getPosAndScale() {
