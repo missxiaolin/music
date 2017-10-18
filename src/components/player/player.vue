@@ -243,6 +243,16 @@ export default {
         this.currentLyric.seek(currentTime * 1000)
       }
     },
+    // 没有播放拉动
+    togglePlaying() {
+      if (!this.songReady) {
+        return
+      }
+      this.setPlayingState(!this.playing)
+      if (this.currentLyric) {
+        this.currentLyric.togglePlay()
+      }
+    },
     // 计算
     _getPosAndScale() {
       const targetWidth = 40
