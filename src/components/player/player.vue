@@ -29,6 +29,7 @@
           <div class="progress-wrapper">
             <span class="time time-l">{{format(currentTime)}}</span>
             <div class="progress-bar-wrapper">
+              <progress-bar :percent="percent" @percentChange="onProgressBarChange"></progress-bar>
             </div>
             <span class="time time-r">{{format(currentSong.duration)}}</span>
           </div>
@@ -77,6 +78,7 @@
 import { mapGetters, mapMutations } from 'vuex'
 import animations from 'create-keyframe-animation'
 import { prefixStyle } from 'common/js/dom'
+import ProgressBar from 'base/progress-bar/progress-bar'
 
 const transform = prefixStyle('transform')
 
@@ -99,6 +101,9 @@ export default {
     // 上一首下一首按钮(不可用)
     diableCls() {
       return this.songReady ? '' : 'disable'
+    },
+    percent() {
+      return this.currentTime / this.currentSong.duration
     },
     // 旋转
     cdCls() {
@@ -225,6 +230,16 @@ export default {
       }
       return num
     },
+    onProgressBarChange(percent) {
+      const currentTime = this.currentSong.duration * percent
+      this.$refs.audio.currentTime = currentTime
+      if (!this.playing) {
+        this.togglePlaying()
+      }
+      if (this.currentLyric) {
+        this.currentLyric.seek(currentTime * 1000)
+      }
+    },
     // 计算
     _getPosAndScale() {
       const targetWidth = 40
@@ -261,6 +276,9 @@ export default {
         newPlaying ? audio.play() : audio.pause()
       })
     }
+  },
+  components: {
+    ProgressBar
   }
 }
 </script>
