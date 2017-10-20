@@ -26,21 +26,21 @@
 </template>
 
 <script type="text/ecmascript-6">
-import Scroll from 'base/scroll/scroll'
-import Loading from 'base/loading/loading'
-import SongList from 'base/song-list/song-list'
-import { prefixStyle } from 'common/js/dom'
-import { mapActions } from 'vuex'
+import Scroll from "base/scroll/scroll";
+import Loading from "base/loading/loading";
+import SongList from "base/song-list/song-list";
+import { prefixStyle } from "common/js/dom";
+import { mapActions } from "vuex";
 
-const RESERVED_HEIGHT = 40
-const transform = prefixStyle('transform')
-const backdrop = prefixStyle('backdrop-filter')
+const RESERVED_HEIGHT = 40;
+const transform = prefixStyle("transform");
+const backdrop = prefixStyle("backdrop-filter");
 
 export default {
   props: {
     bgImage: {
       type: String,
-      default: ''
+      default: ""
     },
     songs: {
       type: Array,
@@ -48,20 +48,19 @@ export default {
     },
     title: {
       type: String,
-      default: ''
+      default: ""
     }
   },
   data() {
     return {
       scrollY: 0
-    }
+    };
   },
   computed: {
     // 背景图
     bgStyle() {
-      return `background-image:url(${this.bgImage})`
-    },
-
+      return `background-image:url(${this.bgImage})`;
+    }
   },
   created() {
     this.probeType = 3;
@@ -81,19 +80,20 @@ export default {
     back() {
       this.$router.back();
     },
-    // 播放
+    // 随机播放
     random() {
-
+      this.randomPlay({
+        list: this.songs
+      });
     },
+    // 播放
     selectItem(item, index) {
       this.selectPlay({
         list: this.songs,
         index
-      })
+      });
     },
-    ...mapActions([
-      'selectPlay'
-    ])
+    ...mapActions(["selectPlay", "randomPlay"])
   },
   watch: {
     // 动画效果（监听Y轴变化）
@@ -111,28 +111,28 @@ export default {
       } else {
         blur = Math.min(20 * percent, 20);
       }
-      this.$refs.filter.style[backdrop] = `blur(${blur}px)`
+      this.$refs.filter.style[backdrop] = `blur(${blur}px)`;
 
       if (newVal < this.minTransalteY) {
         zIndex = 10;
         this.$refs.bgImage.style.paddingTop = 0;
         this.$refs.bgImage.style.height = `${RESERVED_HEIGHT}px`;
-        this.$refs.playBtn.style.display = 'none';
+        this.$refs.playBtn.style.display = "none";
       } else {
-        this.$refs.bgImage.style.paddingTop = '70%';
+        this.$refs.bgImage.style.paddingTop = "70%";
         this.$refs.bgImage.style.height = 0;
-        this.$refs.playBtn.style.display = '';
+        this.$refs.playBtn.style.display = "";
       }
       this.$refs.bgImage.style.zIndex = zIndex;
-      this.$refs.bgImage.style[transform] = `scale(${scale})`
-    },
+      this.$refs.bgImage.style[transform] = `scale(${scale})`;
+    }
   },
   components: {
     Scroll,
     Loading,
     SongList
   }
-}
+};
 </script>
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
