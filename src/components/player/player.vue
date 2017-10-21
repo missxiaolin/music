@@ -23,6 +23,9 @@
                 <img :src="currentSong.image" alt="" class="image">
               </div>
             </div>
+            <div class="playing-lyric-wrapper">
+              <div class="playing-lyric">{{playingLyric}}</div>
+            </div>
           </div>
           <Scroll class="middle-r" ref="lyricList" :data="currentLyric && currentLyric.lines">
               <div class="lyric-wrapper">
@@ -342,7 +345,7 @@ export default {
       }
       this.setCurrentIndex(index);
       if (!this.playing) {
-        this.tooglePlaying();
+        this.togglePlaying();
       }
       this.songReady = false;
     },
@@ -357,7 +360,7 @@ export default {
       }
       this.setCurrentIndex(index);
       if (!this.playing) {
-        this.tooglePlaying();
+        this.togglePlaying();
       }
       this.songReady = false;
     },
@@ -454,6 +457,9 @@ export default {
   watch: {
     currentSong(newSong, oldSong) {
       let that = this;
+      if (!newSong.id) {
+        return;
+      }
       if (newSong.id === oldSong.id) {
         return;
       }
