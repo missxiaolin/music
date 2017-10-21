@@ -339,6 +339,11 @@ export default {
       if (!this.songReady) {
         return false;
       }
+      // 只有一首歌曲的情况下
+      if (this.playlist.length === 1) {
+        this.loop();
+        return false;
+      }
       let index = this.currentIndex + 1;
       if (index == this.playlist.length) {
         index = 0;
@@ -352,6 +357,11 @@ export default {
     // 上一首
     prev() {
       if (!this.songReady) {
+        return false;
+      }
+      // 只有一首歌曲的情况下
+      if (this.playlist.length === 1) {
+        this.loop();
         return false;
       }
       let index = this.currentIndex - 1;
@@ -469,10 +479,11 @@ export default {
         this.playingLyric = "";
         this.currentLineNum = 0;
       }
-      this.$nextTick(() => {
+      clearTimeout(this.timer);
+      that.timer = setTimeout(() => {
         that.$refs.audio.play();
         that.getLyric();
-      });
+      }, 1000);
     },
     playing(newPlaying) {
       const audio = this.$refs.audio;

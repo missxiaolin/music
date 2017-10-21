@@ -39,16 +39,19 @@
 
 <script type="text/ecmascript-6">
 // 轮播图组件
-import Slider from 'base/slider/slider'
+import Slider from "base/slider/slider";
 // 滚动组件
-import Scroll from 'base/scroll/scroll'
+import Scroll from "base/scroll/scroll";
 // loading 组件
-import Loading from 'base/loading/loading'
-import { getRecommend, getDiscList } from 'api/recommend'
+import Loading from "base/loading/loading";
+import { getRecommend, getDiscList } from "api/recommend";
 
-import { ERR_OK } from 'api/config'
+import { playlistMixin } from "common/js/mixin";
+
+import { ERR_OK } from "api/config";
 
 export default {
+  mixins: [playlistMixin],
   data() {
     return {
       recommends: [], // 推荐数据
@@ -58,43 +61,49 @@ export default {
       scrollY: 0, // 滚动列表
       probeType: 3,
       listenScroll: true
-    }
+    };
   },
   created() {
-    this._getRecommend()
-    this._getDiscList()
+    this._getRecommend();
+    this._getDiscList();
   },
   methods: {
+    handlePlaylist(playlist) {
+      const bottom = playlist.length > 0 ? "60px" : "";
+
+      this.$refs.recommend.style.bottom = bottom;
+      this.$refs.scroll.refresh();
+    },
     // 监听滚动
     scroll(pos) {
       this.scrollY = pos.y;
     },
     // 轮播图数据
     _getRecommend() {
-      getRecommend().then((res) => {
+      getRecommend().then(res => {
         if (res.code === ERR_OK) {
-          this.recommends = res.data.slider
+          this.recommends = res.data.slider;
         }
-      })
+      });
     },
     // 获取歌单
     _getDiscList(pullDownShow = false) {
       let that = this;
-      this.pullDownShow = pullDownShow
-      getDiscList().then((res) => {
+      this.pullDownShow = pullDownShow;
+      getDiscList().then(res => {
         if (res.code === ERR_OK) {
-          this.discList = res.data.list
+          this.discList = res.data.list;
           setTimeout(function() {
-            that.pullDownShow = false
-          }, 2000)
+            that.pullDownShow = false;
+          }, 2000);
         }
-      })
+      });
     },
     // 监听图片
     loadImage() {
       if (!this.checkloaded) {
-        this.checkloaded = true
-        this.$refs.scroll.refresh()
+        this.checkloaded = true;
+        this.$refs.scroll.refresh();
       }
     }
   },
@@ -103,7 +112,6 @@ export default {
       // if (newVal > 60) {
       //   this.pullDownShow = true
       // }
-
     }
   },
   components: {
@@ -111,61 +119,85 @@ export default {
     Scroll,
     Loading
   }
-}
+};
 </script>
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
-  @import "../../common/stylus/variable.styl"
+@import '../../common/stylus/variable.styl';
 
-  .recommend
-    position: fixed
-    width: 100%
-    top: 88px
-    bottom: 0
-    .scroll-box
-      position: relative
-      .pull-down
-        text-align: center
-        padding: 10px 0
-    .recommend-content
-      height: 100%
-      overflow: hidden
-      .slider-wrapper
-        position: relative
-        width: 100%
-        overflow: hidden
-      .recommend-list
-        .list-title
-          height: 65px
-          line-height: 65px
-          text-align: center
-          font-size: $font-size-medium
-          color: $color-theme
-        .item
-          display: flex
-          box-sizing: border-box
-          align-items: center
-          padding: 0 20px 20px 20px
-          .icon
-            flex: 0 0 60px
-            width: 60px
-            padding-right: 20px
-          .text
-            display: flex
-            flex-direction: column
-            justify-content: center
-            flex: 1
-            line-height: 20px
-            overflow: hidden
-            font-size: $font-size-medium
-            .name
-              margin-bottom: 10px
-              color: $color-text
-            .desc
-              color: $color-text-d
-      .loading-container
-        position: absolute
-        width: 100%
-        top: 50%
-        transform: translateY(-50%)
+.recommend {
+  position: fixed;
+  width: 100%;
+  top: 88px;
+  bottom: 0;
+
+  .scroll-box {
+    position: relative;
+
+    .pull-down {
+      text-align: center;
+      padding: 10px 0;
+    }
+  }
+
+  .recommend-content {
+    height: 100%;
+    overflow: hidden;
+
+    .slider-wrapper {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    .recommend-list {
+      .list-title {
+        height: 65px;
+        line-height: 65px;
+        text-align: center;
+        font-size: $font-size-medium;
+        color: $color-theme;
+      }
+
+      .item {
+        display: flex;
+        box-sizing: border-box;
+        align-items: center;
+        padding: 0 20px 20px 20px;
+
+        .icon {
+          flex: 0 0 60px;
+          width: 60px;
+          padding-right: 20px;
+        }
+
+        .text {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          flex: 1;
+          line-height: 20px;
+          overflow: hidden;
+          font-size: $font-size-medium;
+
+          .name {
+            margin-bottom: 10px;
+            color: $color-text;
+          }
+
+          .desc {
+            color: $color-text-d;
+          }
+        }
+      }
+    }
+
+    .loading-container {
+      position: absolute;
+      width: 100%;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+  }
+}
 </style>
