@@ -20,15 +20,16 @@
               </div>
             </div>
           </div>
-          <div class="middle-r" ref="lyricList">
+          <Scroll class="middle-r" ref="lyricList" :data="currentLyric && currentLyric.lines">
               <div class="lyric-wrapper">
                 <div v-if="currentLyric">
                   <p ref="lyricLine"
                    class="text"
+                   :class="{'current': currentLineNum === index}"
                    v-for="(line,index) in currentLyric.lines">{{line.txt}}</p>
                 </div>
               </div>
-          </div>
+          </Scroll>
         </div>
         <div class="bottom">
           <div class="dot-wrapper">
@@ -94,6 +95,7 @@ import ProgressCircle from "base/progress-circle/progress-circle";
 import { playMode } from "common/js/config";
 import { shuffle } from "common/js/util";
 import Lyric from "lyric-parser";
+import Scroll from "base/scroll/scroll";
 
 const transform = prefixStyle("transform");
 
@@ -102,8 +104,9 @@ export default {
     return {
       songReady: false,
       currentTime: 0,
+      radius: 32,
       currentLyric: null,
-      radius: 32
+      currentLineNum: 0
     };
   },
   computed: {
@@ -164,7 +167,7 @@ export default {
       });
       this.setCurrentIndex(index);
     },
-    // 歌词
+    // 获取歌词
     getLyric() {
       this.currentSong
         .getLyric()
@@ -182,6 +185,17 @@ export default {
           this.playingLyric = "";
           this.currentLineNum = 0;
         });
+    },
+    // 当前歌词所在行
+    handleLyric({ lineNum, txt }) {
+      this.currentLineNum = lineNum;
+      if (lineNum > 5) {
+        let lineEl = this.$refs.lyricLine[lineNum - 5];
+        this.$refs.lyricList.scrollToElement(lineEl, 1000);
+      } else {
+        this.$refs.lyricList.scrollTo(0, 0, 1000);
+      }
+      this.playingLyric = txt;
     },
     // 后退
     back() {
@@ -375,7 +389,8 @@ export default {
   },
   components: {
     ProgressBar,
-    ProgressCircle
+    ProgressCircle,
+    Scroll
   }
 };
 </script>
