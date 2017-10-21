@@ -55,7 +55,7 @@
               <i @click="prev" class="icon-prev"></i>
             </div>
             <div class="icon i-center">
-              <i :class="playIcon" @click="tooglePlaying"></i>
+              <i :class="playIcon" @click="togglePlaying"></i>
             </div>
             <div class="icon i-right" :class="diableCls">
               <i @click="next" class="icon-next"></i>
@@ -185,6 +185,7 @@ export default {
           if (this.currentSong.lyric !== lyric) {
             return;
           }
+
           this.currentLyric = new Lyric(lyric, this.handleLyric);
           if (this.playing) {
             this.currentLyric.play();
@@ -330,10 +331,6 @@ export default {
       this.$refs.cdWrapper.style.transition = "";
       this.$refs.cdWrapper.style[transform] = "";
     },
-    // 暂停音乐
-    tooglePlaying() {
-      this.setPlayingState(!this.playing);
-    },
     // 下一首
     next() {
       if (!this.songReady) {
@@ -383,6 +380,10 @@ export default {
     loop() {
       this.$refs.audio.currentTime = 0;
       this.$refs.audio.play();
+      this.setPlayingState(true);
+      if (this.currentLyric) {
+        this.currentLyric.seek(0);
+      }
     },
     // 时间
     updateTime(e) {
@@ -453,8 +454,14 @@ export default {
   watch: {
     currentSong(newSong, oldSong) {
       let that = this;
-      if (newSong.id == oldSong.id) {
+      if (newSong.id === oldSong.id) {
         return;
+      }
+      if (this.currentLyric) {
+        this.currentLyric.stop();
+        this.currentTime = 0;
+        this.playingLyric = "";
+        this.currentLineNum = 0;
       }
       this.$nextTick(() => {
         that.$refs.audio.play();
