@@ -6,6 +6,8 @@ import recommend from '@/components/recommend/recommend'
 import singer from '@/components/singer/singer'
 // 歌手详情
 import singerDetail from '@/components/singer-detail/singer-detail'
+// 歌单页面
+import disc from '@/components/disc/disc'
 
 Vue.use(Router)
 
@@ -16,6 +18,16 @@ export default new Router({
       path: '/recommend',
       name: 'recommend',
       component: recommend
+    }, {
+      path: '/recommend',
+      component: recommend,
+      children: [
+        {
+          path: ':id',
+          name: 'disc',
+          component: disc
+        }
+      ]
     }, {
       path: '/singer',
       name: 'singer',
