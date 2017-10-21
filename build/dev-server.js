@@ -64,6 +64,26 @@ apiRoutes.get('/lyric', function (req, res) {
   })
 })
 
+apiRoutes.get('/getSongList', function (req, res) {
+  var url = 'https://c.y.qq.com/qzone/fcg-bin/fcg_ucc_getcdinfo_byids_cp.fcg'
+  axios.get(url, {
+    headers: {
+      referer: 'https://c.y.qq.com/',
+      host: 'c.y.qq.com'
+    },
+    params: req.query
+  }).then((response) => {
+    let ret = response.data
+    if (typeof ret === 'string') {
+      ret = ret.substring(0,ret.length - 1).substring(13);
+      ret = JSON.parse(ret)
+    }
+    res.json(ret)
+  }).catch((e) => {
+    console.log(e)
+  })
+})
+
 app.use('/api', apiRoutes)
 
 var compiler = webpack(webpackConfig)

@@ -77,7 +77,7 @@ var Api = {
         'X-Requested-With': 'XMLHttpRequest'
       },
 
-      //parameter参数
+      // parameter参数
       params: {
         ID: 12345
       },
@@ -87,9 +87,9 @@ var Api = {
         firstName: 'Fred'
       },
 
-      //设置超时时间
+      // 设置超时时间
       timeout: 1000,
-      //返回数据类型
+      // 返回数据类型
       responseType: 'json', // default
     }
   }
