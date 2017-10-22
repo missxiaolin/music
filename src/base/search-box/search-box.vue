@@ -62,6 +62,8 @@
       background: $color-highlight-background
       color: $color-text
       font-size: $font-size-medium
+      border: none
+      outline: none
       &::placeholder
         color: $color-text-d
     .icon-dismiss
