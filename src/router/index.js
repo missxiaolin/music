@@ -12,6 +12,8 @@ import disc from '@/components/disc/disc'
 import rank from '@/components/rank/rank'
 // 排行榜详情
 import TopList from '@/components/top-list/top-list'
+// 搜索
+import search from '@/components/search/search'
 
 Vue.use(Router)
 
@@ -53,6 +55,10 @@ export default new Router({
           component: TopList
         }
       ]
-    }
+    },{
+      path: '/search',
+      name: 'search',
+      component: search
+    },
   ]
 })
