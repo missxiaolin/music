@@ -3,7 +3,7 @@
     <div class="search-box-wrapper">
       <search-box ref="searchBox" @query="onQueryChange"></search-box>
     </div>
-    <div class="shortcut-wrapper">
+    <div class="shortcut-wrapper" v-show="!query">
       <div class="shortcut">
         <div class="hot-key">
           <h1 class="title">热门搜索</h1>
@@ -15,12 +15,15 @@
         </div>
       </div>
     </div>
+    <div class="search-result" v-show="query" ref="searchResult">
+      <suggest ref="suggest" :query="query"></suggest>
+    </div>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
 import SearchBox from "base/search-box/search-box";
-import Suggest from 'components/suggest/suggest'
+import Suggest from "components/suggest/suggest";
 import { getHotKey } from "api/search";
 import { ERR_OK } from "api/config";
 import { playlistMixin } from "common/js/mixin";
@@ -29,7 +32,8 @@ export default {
   mixins: [playlistMixin],
   data() {
     return {
-      hotKey: []
+      hotKey: [],
+      query: ""
     };
   },
   computed: {},
@@ -55,7 +59,9 @@ export default {
       this.query = query;
     }
   },
-  watch: {},
+  watch: {
+
+  },
   components: {
     SearchBox,
     Suggest
