@@ -8,6 +8,8 @@ import singer from '@/components/singer/singer'
 import singerDetail from '@/components/singer-detail/singer-detail'
 // 歌单页面
 import disc from '@/components/disc/disc'
+// 歌单页面
+import rank from '@/components/rank/rank'
 
 Vue.use(Router)
 
@@ -39,6 +41,10 @@ export default new Router({
           component: singerDetail
         }
       ]
+    }, {
+      path: '/rank',
+      name: 'rank',
+      component: rank
     }
   ]
 })
