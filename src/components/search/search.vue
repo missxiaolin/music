@@ -19,9 +19,6 @@ export default {
     };
   },
   computed: {
-    shortcut() {
-      return this.hotKey.concat(this.searchHistory);
-    }
   },
   created() {
   },
