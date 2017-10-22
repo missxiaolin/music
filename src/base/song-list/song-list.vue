@@ -2,6 +2,9 @@
   <div class="song-list">
     <ul>
       <li v-for="(song,index) in songs" class="item" @click="selectItem(song,index)">
+        <div class="rank" v-show="rank">
+          <span :class="getRankCls(index)" v-text="getRankText(index)"></span>
+        </div>
         <div class="content">
           <h2 class="name">{{song.name}}</h2>
           <p class="desc">{{getDesc(song)}}</p>
@@ -26,14 +29,26 @@ export default {
   methods: {
     // desc
     getDesc(song) {
-      return `${song.singer}·${song.album}`
+      return `${song.singer}·${song.album}`;
+    },
+    getRankCls(index) {
+      if (index <= 2) {
+        return `icon icon${index}`;
+      } else {
+        return "text";
+      }
+    },
+    getRankText(index) {
+      if (index > 2) {
+        return index + 1;
+      }
     },
     // 点击歌曲
     selectItem(item, index) {
-      this.$emit('select', item, index)
+      this.$emit("select", item, index);
     }
   }
-}
+};
 </script>
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
