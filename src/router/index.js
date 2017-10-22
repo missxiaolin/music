@@ -8,8 +8,10 @@ import singer from '@/components/singer/singer'
 import singerDetail from '@/components/singer-detail/singer-detail'
 // 歌单页面
 import disc from '@/components/disc/disc'
-// 歌单页面
+// 排行榜页面
 import rank from '@/components/rank/rank'
+// 排行榜详情
+import TopList from '@/components/top-list/top-list'
 
 Vue.use(Router)
 
@@ -44,7 +46,13 @@ export default new Router({
     }, {
       path: '/rank',
       name: 'rank',
-      component: rank
+      component: rank,
+      children: [
+        {
+          path: ':id',
+          component: TopList
+        }
+      ]
     }
   ]
 })
