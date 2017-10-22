@@ -1,7 +1,7 @@
 <template>
   <div class="search">
     <div class="search-box-wrapper">
-      <search-box ref="searchBox"></search-box>
+      <search-box ref="searchBox" @query="onQueryChange"></search-box>
     </div>
     <div class="shortcut-wrapper">
       <div class="shortcut">
@@ -20,6 +20,7 @@
 
 <script type="text/ecmascript-6">
 import SearchBox from "base/search-box/search-box";
+import Suggest from 'components/suggest/suggest'
 import { getHotKey } from "api/search";
 import { ERR_OK } from "api/config";
 import { playlistMixin } from "common/js/mixin";
@@ -48,11 +49,16 @@ export default {
     // 热门搜索单击
     addQuery(query) {
       this.$refs.searchBox.setQuery(query);
+    },
+    // 拿到搜索框变化值
+    onQueryChange(query) {
+      this.query = query;
     }
   },
   watch: {},
   components: {
-    SearchBox
+    SearchBox,
+    Suggest
   }
 };
 </script>
