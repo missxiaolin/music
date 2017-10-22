@@ -45,7 +45,10 @@ export default {
         }
       });
     },
-    addQuery() {}
+    // 热门搜索单击
+    addQuery(query) {
+      this.$refs.searchBox.setQuery(query);
+    }
   },
   watch: {},
   components: {
