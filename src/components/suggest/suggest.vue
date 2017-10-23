@@ -1,5 +1,8 @@
 <template>
-  <scroll class="suggest">
+  <scroll class="suggest"
+          ref="suggest"
+          :data="result"
+  >
     <ul class="suggest-list">
       <li @click="selectItem(item)" class="suggest-item" v-for="item in result">
         <div class="icon">
@@ -9,6 +12,7 @@
           <p class="text" v-html="getDisplayName(item)"></p>
         </div>
       </li>
+      <loading v-show="hasMore" title=""></loading>
     </ul>
   </scroll>
 </template>
@@ -49,9 +53,13 @@ export default {
     },
     // 搜索
     search() {
+      this.page = 1;
+      this.hasMore = true;
+      this.$refs.suggest.scrollTo(0, 0);
       search(this.query, this.page, this.showSinger, perpage).then(res => {
         if (res.code === ERR_OK) {
           this.result = this._genResult(res.data);
+          this._checkMore(res.data);
         }
       });
     },
@@ -65,6 +73,10 @@ export default {
         ret = ret.concat(this._normalizeSongs(data.song.list));
       }
       return ret;
+    },
+    // 修改回来loding隐藏
+    _checkMore() {
+      this.hasMore = false;
     },
     // 处理搜索结果
     _normalizeSongs(list) {
@@ -93,9 +105,7 @@ export default {
       }
     },
     // 歌曲单击
-    selectItem(item){
-
-    }
+    selectItem(item) {}
   },
   watch: {
     query(newQuery) {
