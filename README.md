@@ -119,3 +119,4 @@ For detailed explanation on how things work, checkout the [guide](http://vuejs-t
 
 - ##### [vue-social-sharing（社交分享）](https://github.com/nicolasbeauvais/vue-social-sharing)
 
+- ##### [移动端调试工具](https://github.com/Tencent/vConsole)
