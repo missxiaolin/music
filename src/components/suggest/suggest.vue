@@ -1,5 +1,5 @@
 <template>
-  <div class="suggest">
+  <scroll class="suggest">
     <ul class="suggest-list">
       <li @click="selectItem(item)" class="suggest-item" v-for="item in result">
         <div class="icon">
@@ -10,7 +10,7 @@
         </div>
       </li>
     </ul>
-  </div>
+  </scroll>
 </template>
 
 <script type="text/ecmascript-6">
@@ -91,6 +91,10 @@ export default {
       } else {
         return "icon-music";
       }
+    },
+    // 歌曲单击
+    selectItem(item){
+
     }
   },
   watch: {
