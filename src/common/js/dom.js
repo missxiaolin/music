@@ -1,8 +1,16 @@
+/**
+ * @param {*} el
+ * @param {*} className
+ */
 export function hasClass(el, className) {
   let reg = new RegExp('(^|\\s)' + className + '(\\s|$)')
   return reg.test(el.className)
 }
 
+/**
+ * @param {*} el
+ * @param {*} className
+ */
 export function addClass(el, className) {
   if (hasClass(el, className)) {
     return
@@ -15,6 +23,11 @@ export function addClass(el, className) {
   el.className = newClass.join(' ')
 }
 
+/**
+ * @param {*} el
+ * @param {*} name
+ * @param {*} val
+ */
 export function getData(el, name, val) {
   const prefix = 'data-'
   if (val) {
@@ -44,6 +57,9 @@ let vendor = (() => {
   return false
 })()
 
+/**
+ * @param {*} style
+ */
 export function prefixStyle(style) {
   if (vendor === false) {
     return false

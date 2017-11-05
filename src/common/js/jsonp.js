@@ -1,5 +1,10 @@
 import originJSONP from 'jsonp'
 
+/**
+ * @param {*} url
+ * @param {*} data
+ * @param {*} option
+ */
 export default function jsonp(url, data, option) {
   url += (url.indexOf('?') < 0 ? '?' : '&') + param(data)
 
@@ -14,6 +19,9 @@ export default function jsonp(url, data, option) {
   })
 }
 
+/**
+ * @param {*} data
+ */
 export function param(data) {
   let url = ''
   for (var k in data) {
