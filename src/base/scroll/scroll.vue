@@ -39,6 +39,7 @@ export default {
       type: Boolean,
       default: false
     },
+    // 滚动开始会派发一个 beforeScroll 事件
     beforeScroll: {
       type: Boolean,
       default: false
@@ -87,6 +88,7 @@ export default {
         });
       }
 
+      // 滚动开始会派发一个 beforeScroll 事件
       if (this.beforeScroll) {
         this.scroll.on("beforeScrollStart", () => {
           this.$emit("beforeScroll");

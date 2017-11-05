@@ -3,7 +3,9 @@
           ref="suggest"
           :data="result"
           :pullup="pullup"
+          :beforeScroll="beforeScroll"
           @scrollToEnd="searchMore"
+          @beforeScroll="listScroll"
   >
     <ul class="suggest-list">
       <li @click="selectItem(item)" class="suggest-item" v-for="item in result">
@@ -25,7 +27,7 @@
 <script type="text/ecmascript-6">
 import Scroll from "base/scroll/scroll";
 import Loading from "base/loading/loading";
-import NoResult from 'base/no-result/no-result';
+import NoResult from "base/no-result/no-result";
 import { search } from "api/search";
 import { ERR_OK } from "api/config";
 import { createSong } from "common/js/song";
@@ -56,6 +58,9 @@ export default {
     };
   },
   methods: {
+    listScroll() {
+      this.$emit("listScroll");
+    },
     refresh() {
       this.$refs.suggest.refresh();
     },
