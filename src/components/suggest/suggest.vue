@@ -2,6 +2,8 @@
   <scroll class="suggest"
           ref="suggest"
           :data="result"
+          :pullup="pullup"
+          @scrollToEnd="searchMore"
   >
     <ul class="suggest-list">
       <li @click="selectItem(item)" class="suggest-item" v-for="item in result">
@@ -75,8 +77,14 @@ export default {
       return ret;
     },
     // 修改回来loding隐藏
-    _checkMore() {
-      this.hasMore = false;
+    _checkMore(data) {
+      const song = data.song;
+      if (
+        !song.list.length ||
+        song.curnum + song.curpage * perpage > song.totalnum
+      ) {
+        this.hasMore = false;
+      }
     },
     // 处理搜索结果
     _normalizeSongs(list) {
@@ -103,6 +111,19 @@ export default {
       } else {
         return "icon-music";
       }
+    },
+    // 下啦
+    searchMore() {
+      if (!this.hasMore) {
+        return;
+      }
+      this.page++;
+      search(this.query, this.page, this.showSinger, perpage).then(res => {
+        if (res.code === ERR_OK) {
+          this.result = this.result.concat(this._genResult(res.data));
+          this._checkMore(res.data);
+        }
+      });
     },
     // 歌曲单击
     selectItem(item) {}
