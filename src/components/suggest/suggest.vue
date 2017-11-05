@@ -25,6 +25,8 @@ import Loading from "base/loading/loading";
 import { search } from "api/search";
 import { ERR_OK } from "api/config";
 import { createSong } from "common/js/song";
+import { mapMutations, mapActions } from "vuex";
+import Singer from "common/js/singer";
 
 const TYPE_SINGER = "singer";
 const perpage = 20;
@@ -126,7 +128,25 @@ export default {
       });
     },
     // 歌曲单击
-    selectItem(item) {}
+    selectItem(item) {
+      if (item.type === TYPE_SINGER) {
+        const singer = new Singer({
+          id: item.singermid,
+          name: item.singername
+        });
+        this.$router.push({
+          path: `/search/${singer.id}`
+        });
+        this.setSinger(singer);
+      } else {
+        this.insertSong(item);
+      }
+      this.$emit("select", item);
+    },
+    ...mapMutations({
+      setSinger: "SET_SINGER"
+    }),
+    ...mapActions(["insertSong"])
   },
   watch: {
     query(newQuery) {
