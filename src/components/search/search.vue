@@ -16,7 +16,7 @@
       </div>
     </div>
     <div class="search-result" v-show="query" ref="searchResult">
-      <suggest ref="suggest" :query="query"></suggest>
+      <suggest @listScroll="blurInput" ref="suggest" :query="query"></suggest>
     </div>
     <router-view></router-view>
   </div>
@@ -43,6 +43,9 @@ export default {
   },
   methods: {
     handlePlaylist(playlist) {},
+    blurInput() {
+      this.$refs.searchBox.blur();
+    },
     // 获取热门搜索
     _getHotKey() {
       getHotKey().then(res => {
@@ -60,9 +63,7 @@ export default {
       this.query = query;
     }
   },
-  watch: {
-
-  },
+  watch: {},
   components: {
     SearchBox,
     Suggest
