@@ -1,13 +1,22 @@
 import * as types from './mutation-types'
 import {playMode} from 'common/js/config'
 import {shuffle} from 'common/js/util'
+import {saveSearch} from 'common/js/cache'
 
+/**
+ * @param {*} list
+ * @param {*} song
+ */
 function findIndex(list, song) {
   return list.findIndex((item) => {
     return item.id === song.id
   })
 }
 
+/**
+ * @param {*} param0
+ * @param {*} param1
+ */
 export const selectPlay = function ({
   commit,
   state
@@ -25,12 +34,10 @@ export const selectPlay = function ({
   commit(types.SET_PLAYING_STATE, true)
 }
 
-function findIndex(list, song) {
-  return list.findIndex((item) => {
-    return item.id === song.id
-  })
-}
-
+/**
+ * @param {*} param0
+ * @param {*} param1
+ */
 export const randomPlay = function ({
   commit
 }, {list}) {
@@ -43,6 +50,10 @@ export const randomPlay = function ({
   commit(types.SET_PLAYING_STATE, true)
 }
 
+/**
+ * @param {*} param0
+ * @param {*} song
+ */
 export const insertSong = function ({
   commit,
   state
@@ -92,4 +103,8 @@ export const insertSong = function ({
   commit(types.SET_CURRENT_INDEX, currentIndex)
   commit(types.SET_FULL_SCREEN, true)
   commit(types.SET_PLAYING_STATE, true)
+}
+
+export const saveSearchHistory = function ({commit}, query) {
+  commit(types.SET_SEARCH_HISTORY, saveSearch(query))
 }

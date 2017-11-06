@@ -16,7 +16,7 @@
       </div>
     </div>
     <div class="search-result" v-show="query" ref="searchResult">
-      <suggest @listScroll="blurInput" ref="suggest" :query="query"></suggest>
+      <suggest @listScroll="blurInput" @select="saveSearch" ref="suggest" :query="query"></suggest>
     </div>
     <router-view></router-view>
   </div>
@@ -28,6 +28,7 @@ import Suggest from "components/suggest/suggest";
 import { getHotKey } from "api/search";
 import { ERR_OK } from "api/config";
 import { playlistMixin } from "common/js/mixin";
+import { mapActions } from "vuex";
 
 export default {
   mixins: [playlistMixin],
@@ -43,6 +44,7 @@ export default {
   },
   methods: {
     handlePlaylist(playlist) {},
+    // 滚动时候执行
     blurInput() {
       this.$refs.searchBox.blur();
     },
@@ -61,7 +63,12 @@ export default {
     // 拿到搜索框变化值
     onQueryChange(query) {
       this.query = query;
-    }
+    },
+    // 储存历史
+    saveSearch() {
+      this.saveSearchHistory(this.query)
+    },
+    ...mapActions(["saveSearchHistory"])
   },
   watch: {},
   components: {
