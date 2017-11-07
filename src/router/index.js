@@ -19,52 +19,42 @@ Vue.use(Router)
 
 export default new Router({
   mode: 'history',
-  routes: [
-    {
-      path: '/recommend',
-      name: 'recommend',
-      component: recommend
-    }, {
-      path: '/recommend',
-      component: recommend,
-      children: [
-        {
-          path: ':id',
-          name: 'disc',
-          component: disc
-        }
-      ]
-    }, {
-      path: '/singer',
-      name: 'singer',
-      component: singer,
-      children: [
-        {
-          path: '/singer/:id',
-          name: 'singerDetail',
-          component: singerDetail
-        }
-      ]
-    }, {
-      path: '/rank',
-      name: 'rank',
-      component: rank,
-      children: [
-        {
-          path: ':id',
-          component: TopList
-        }
-      ]
-    },{
-      path: '/search',
-      name: 'search',
-      component: search,
-      children: [
-        {
-          path: ':id',
-          component: singerDetail
-        }
-      ]
-    },
-  ]
+  routes: [{
+    path: '/recommend',
+    name: 'recommend',
+    component: recommend
+  }, {
+    path: '/recommend',
+    component: recommend,
+    children: [{
+      path: ':id',
+      name: 'disc',
+      component: disc
+    }]
+  }, {
+    path: '/singer',
+    name: 'singer',
+    component: singer,
+    children: [{
+      path: '/singer/:id',
+      name: 'singerDetail',
+      component: singerDetail
+    }]
+  }, {
+    path: '/rank',
+    name: 'rank',
+    component: rank,
+    children: [{
+      path: ':id',
+      component: TopList
+    }]
+  }, {
+    path: '/search',
+    name: 'search',
+    component: search,
+    children: [{
+      path: ':id',
+      component: singerDetail
+    }]
+  }]
 })

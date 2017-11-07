@@ -36,3 +36,10 @@ export function saveSearch(query) {
   storage.set(SEARCH_KEY, searches)
   return searches
 }
+
+/**
+ * 读取缓存
+ */
+export function loadSearch() {
+  return storage.get(SEARCH_KEY, [])
+}
