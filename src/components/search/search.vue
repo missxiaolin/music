@@ -33,7 +33,7 @@
 
 <script type="text/ecmascript-6">
 import SearchBox from "base/search-box/search-box";
-import SearchList from 'base/search-list/search-list';
+import SearchList from "base/search-list/search-list";
 import Suggest from "components/suggest/suggest";
 import { getHotKey } from "api/search";
 import { ERR_OK } from "api/config";
@@ -81,14 +81,19 @@ export default {
       this.saveSearchHistory(this.query);
     },
     // 清除
-    showConfirm(){
-
+    showConfirm() {
+      this.clearSearchHistory();
     },
     // 删除缓存
-    deleteSearchHistory(){
-
+    deleteSearchHistory(item) {
+      this.deleteSearchHistory(item);
     },
-    ...mapActions(["saveSearchHistory"])
+    /**@argument */
+    ...mapActions([
+      "saveSearchHistory",
+      "deleteSearchHistory",
+      "clearSearchHistory"
+    ])
   },
   watch: {},
   components: {

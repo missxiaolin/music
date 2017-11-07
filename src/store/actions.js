@@ -1,7 +1,7 @@
 import * as types from './mutation-types'
 import {playMode} from 'common/js/config'
 import {shuffle} from 'common/js/util'
-import {saveSearch} from 'common/js/cache'
+import {saveSearch, deleteSearch, clearSearch} from 'common/js/cache'
 
 /**
  * @param {*} list
@@ -105,6 +105,32 @@ export const insertSong = function ({
   commit(types.SET_PLAYING_STATE, true)
 }
 
-export const saveSearchHistory = function ({commit}, query) {
+/**
+ * 保存缓存
+ * @param {*} param0
+ * @param {*} query
+ */
+export const saveSearchHistory = function ({
+  commit
+}, query) {
   commit(types.SET_SEARCH_HISTORY, saveSearch(query))
+}
+
+/**
+ * 删除缓存
+ * @param {*} param0
+ * @param {*} query
+ */
+export const deleteSearchHistory = function ({
+  commit
+}, query) {
+  commit(types.SET_SEARCH_HISTORY, deleteSearch(query))
+}
+
+/**
+ * 清除缓存
+ * @param {*} param0
+ */
+export const clearSearchHistory = function ({commit}) {
+  commit(types.SET_SEARCH_HISTORY, clearSearch())
 }
