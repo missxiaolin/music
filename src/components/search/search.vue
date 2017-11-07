@@ -13,6 +13,15 @@
               </li>
           </ul>
         </div>
+        <div class="search-history" v-show="searchHistory.length">
+          <h1 class="title">
+            <span class="text">搜索历史</span>
+            <span @click="showConfirm" class="clear">
+              <i class="icon-clear"></i>
+            </span>
+          </h1>
+          <search-list @delete="deleteSearchHistory" @select="addQuery" :searches="searchHistory"></search-list>
+        </div>
       </div>
     </div>
     <div class="search-result" v-show="query" ref="searchResult">
@@ -24,11 +33,12 @@
 
 <script type="text/ecmascript-6">
 import SearchBox from "base/search-box/search-box";
+import SearchList from 'base/search-list/search-list';
 import Suggest from "components/suggest/suggest";
 import { getHotKey } from "api/search";
 import { ERR_OK } from "api/config";
 import { playlistMixin } from "common/js/mixin";
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   mixins: [playlistMixin],
@@ -38,7 +48,9 @@ export default {
       query: ""
     };
   },
-  computed: {},
+  computed: {
+    ...mapGetters(["searchHistory"])
+  },
   created() {
     this._getHotKey();
   },
@@ -66,14 +78,23 @@ export default {
     },
     // 储存历史
     saveSearch() {
-      this.saveSearchHistory(this.query)
+      this.saveSearchHistory(this.query);
+    },
+    // 清除
+    showConfirm(){
+
+    },
+    // 删除缓存
+    deleteSearchHistory(){
+
     },
     ...mapActions(["saveSearchHistory"])
   },
   watch: {},
   components: {
     SearchBox,
-    Suggest
+    Suggest,
+    SearchList
   }
 };
 </script>

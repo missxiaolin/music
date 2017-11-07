@@ -11,7 +11,7 @@ const state = {
   currentIndex: -1, // 当前播放索引
   disc: {}, // 歌单
   topList: {}, // 排行榜详情
-  searchHistory: loadSearch() // 搜索历史
+  searchHistory: loadSearch()  // 搜索历史
 }
 
 export default state
