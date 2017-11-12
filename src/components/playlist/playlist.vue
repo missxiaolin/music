@@ -40,7 +40,8 @@
 </template>
 
 <script type="text/ecmascript-6">
-import { mapActions } from "vuex";
+import { mapActions, mapGetters, mapMutations } from "vuex";
+import { playMode } from "common/js/config";
 import Scroll from "base/scroll/scroll";
 import Confirm from "base/confirm/confirm";
 
@@ -49,13 +50,12 @@ export default {
     return {
       showFlag: false,
       refreshDelay: 120,
-      iconMode: '',
-      modeText: '',
-      sequenceList: []
+      iconMode: "",
+      modeText: ""
     };
   },
   computed: {
-
+    ...mapGetters(["sequenceList", "currentSong"])
   },
   methods: {
     // 清空
@@ -65,18 +65,62 @@ export default {
       this.showFlag = false;
     },
     // 隐藏
-    show(){
+    show() {
       this.showFlag = true;
+      setTimeout(() => {
+        this.$refs.listContent.refresh();
+      }, 20);
     },
     // 添加
     addSong() {},
     deleteOne() {},
     toggleFavorite() {},
-    selectItem() {},
+    // 播放歌曲
+    selectItem(item, index) {
+      if (this.mode === playMode.random) {
+        index = this.playlist.findIndex(song => {
+          return song.id === item.id;
+        });
+      }
+      this.setCurrentIndex(index);
+      this.setPlayingState(true);
+    },
     showConfirm() {},
-    changeMode(){},
+    changeMode() {},
+    // 当前播放样式
+    getCurrentIcon(item) {
+      if (this.currentSong.id === item.id) {
+        return "icon-play";
+      }
+      return "";
+    },
+    // 滚动到当前播放歌曲
+    scrollToCurrent(current) {
+      const index = this.sequenceList.findIndex(song => {
+        return current.id === song.id;
+      });
+      // 滚动到列表的元素（list下的li）
+      this.$refs.listContent.scrollToElement(
+        this.$refs.list.$el.children[index],
+        300
+      );
+    },
+    getFavoriteIcon() {},
+    ...mapMutations({
+      setCurrentIndex: "SET_CURRENT_INDEX",
+      setPlayingState: "SET_PLAYING_STATE"
+    })
   },
-  watch: {},
+  watch: {
+    currentSong(newSong, oldSong) {
+      if (!this.showFlag || newSong.id === oldSong.id) {
+        return;
+      }
+      setTimeout(() => {
+        this.scrollToCurrent(newSong);
+      }, 20);
+    }
+  },
   components: {
     Scroll,
     Confirm
