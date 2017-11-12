@@ -55,7 +55,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["sequenceList", "currentSong"])
+    ...mapGetters(["sequenceList", "currentSong", "playlist", "mode"])
   },
   methods: {
     // 清空
