@@ -64,6 +64,6 @@ export const playerMixin = {
       this.setCurrentIndex(index);
     },
     // 引入
-    ...mapMutations({setPlayingState: "SET_PLAYING_STATE", setCurrentIndex: "SET_CURRENT_INDEX", setPlayMode: "SET_PLAY_MODE", setPlaylist: "SET_PLAYLIST"})
+    ...mapMutations({setPlayingState: 'SET_PLAYING_STATE', setCurrentIndex: 'SET_CURRENT_INDEX', setPlayMode: 'SET_PLAY_MODE', setPlaylist: 'SET_PLAYLIST'})
   }
 }
