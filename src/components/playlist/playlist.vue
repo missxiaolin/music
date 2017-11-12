@@ -10,6 +10,7 @@
           </h1>
         </div>
         <scroll ref="listContent" :data="sequenceList" class="list-content" :refreshDelay="refreshDelay">
+          <!-- 动画 -->
           <transition-group ref="list" name="list" tag="ul">
             <li :key="item.id" class="item" v-for="(item,index) in sequenceList"
                 @click="selectItem(item,index)">
@@ -58,8 +59,6 @@ export default {
     ...mapGetters(["sequenceList", "currentSong", "playlist", "mode"])
   },
   methods: {
-    // 清空
-    confirmClear() {},
     // 关闭
     hide() {
       this.showFlag = false;
@@ -111,12 +110,20 @@ export default {
         300
       );
     },
+    // 清空
+    showConfirm() {
+      this.$refs.confirm.show();
+    },
+    confirmClear() {
+      this.deleteSongList();
+      this.hide();
+    },
     getFavoriteIcon() {},
     ...mapMutations({
       setCurrentIndex: "SET_CURRENT_INDEX",
       setPlayingState: "SET_PLAYING_STATE"
     }),
-    ...mapActions(["deleteSong"])
+    ...mapActions(["deleteSong", "deleteSongList"])
   },
   watch: {
     currentSong(newSong, oldSong) {
