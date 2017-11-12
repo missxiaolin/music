@@ -73,7 +73,13 @@ export default {
     },
     // 添加
     addSong() {},
-    deleteOne() {},
+    // 删除
+    deleteOne(item) {
+      this.deleteSong(item);
+      if (!this.playlist.length) {
+        this.hide();
+      }
+    },
     toggleFavorite() {},
     // 播放歌曲
     selectItem(item, index) {
@@ -109,7 +115,8 @@ export default {
     ...mapMutations({
       setCurrentIndex: "SET_CURRENT_INDEX",
       setPlayingState: "SET_PLAYING_STATE"
-    })
+    }),
+    ...mapActions(["deleteSong"])
   },
   watch: {
     currentSong(newSong, oldSong) {
