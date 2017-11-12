@@ -3,7 +3,7 @@
     <div class="search-box-wrapper">
       <search-box ref="searchBox" @query="onQueryChange"></search-box>
     </div>
-    <div class="shortcut-wrapper" v-show="!query">
+    <div ref="shortcutWrapper" class="shortcut-wrapper" v-show="!query">
       <scroll ref="shortcut" class="shortcut" :data="shortcut">
         <div>
           <div class="hot-key">
@@ -64,7 +64,15 @@ export default {
     this._getHotKey();
   },
   methods: {
-    handlePlaylist(playlist) {},
+    // 自适应高度
+    handlePlaylist(playlist) {
+      const bottom = playlist.length > 0 ? "60px" : "";
+
+      this.$refs.shortcutWrapper.style.bottom = bottom;
+      this.$refs.searchResult.style.bottom = bottom;
+      this.$refs.shortcut.refresh();
+      this.$refs.suggest.refresh();
+    },
     // 滚动时候执行
     blurInput() {
       this.$refs.searchBox.blur();

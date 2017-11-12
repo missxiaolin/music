@@ -2,6 +2,9 @@ import {
   mapGetters
 } from 'vuex'
 
+/**
+ * 自适应高度
+ */
 export const playlistMixin = {
   computed: {
     ...mapGetters(['playlist'])
