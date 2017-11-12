@@ -4,7 +4,7 @@
       <div class="list-wrapper" @click.stop>
         <div class="list-header">
           <h1 class="title">
-            <i class="icon" :class="iconMode" @click="changeMode"></i>
+            <i class="icon" :class="iconMode" @click="changMode"></i>
             <span class="text">{{modeText}}</span>
             <span class="clear" @click="showConfirm"><i class="icon-clear"></i></span>
           </h1>
@@ -41,22 +41,28 @@
 </template>
 
 <script type="text/ecmascript-6">
-import { mapActions, mapGetters, mapMutations } from "vuex";
-import { playMode } from "common/js/config";
+import { mapActions } from "vuex";
+import {playMode} from 'common/js/config';
 import Scroll from "base/scroll/scroll";
 import Confirm from "base/confirm/confirm";
 
+// 公用逻辑
+import { playerMixin } from "common/js/mixin";
+
 export default {
+  mixins: [playerMixin],
   data() {
     return {
       showFlag: false,
-      refreshDelay: 120,
-      iconMode: "",
-      modeText: ""
+      refreshDelay: 120
     };
   },
   computed: {
-    ...mapGetters(["sequenceList", "currentSong", "playlist", "mode"])
+    modeText() {
+      return this.mode === playMode.sequence
+        ? "顺序播放"
+        : this.mode === playMode.random ? "随机播放" : "单曲循环";
+    }
   },
   methods: {
     // 关闭
@@ -90,8 +96,6 @@ export default {
       this.setCurrentIndex(index);
       this.setPlayingState(true);
     },
-    showConfirm() {},
-    changeMode() {},
     // 当前播放样式
     getCurrentIcon(item) {
       if (this.currentSong.id === item.id) {
@@ -119,10 +123,6 @@ export default {
       this.hide();
     },
     getFavoriteIcon() {},
-    ...mapMutations({
-      setCurrentIndex: "SET_CURRENT_INDEX",
-      setPlayingState: "SET_PLAYING_STATE"
-    }),
     ...mapActions(["deleteSong", "deleteSongList"])
   },
   watch: {
