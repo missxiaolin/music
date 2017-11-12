@@ -61,7 +61,13 @@ export default {
     // 清空
     confirmClear() {},
     // 关闭
-    hide() {},
+    hide() {
+      this.showFlag = false;
+    },
+    // 隐藏
+    show(){
+      this.showFlag = true;
+    },
     // 添加
     addSong() {},
     deleteOne() {},
