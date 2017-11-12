@@ -27,6 +27,7 @@
     <div class="search-result" v-show="query" ref="searchResult">
       <suggest @listScroll="blurInput" @select="saveSearch" ref="suggest" :query="query"></suggest>
     </div>
+    <confirm ref="confirm" @confirm="clearSearchHistory" text="是否清空所有搜索历史" confirmBtnText="清空"></confirm>
     <router-view></router-view>
   </div>
 </template>
@@ -34,6 +35,7 @@
 <script type="text/ecmascript-6">
 import SearchBox from "base/search-box/search-box";
 import SearchList from "base/search-list/search-list";
+import Confirm from 'base/confirm/confirm'
 import Suggest from "components/suggest/suggest";
 import { getHotKey } from "api/search";
 import { ERR_OK } from "api/config";
@@ -82,7 +84,8 @@ export default {
     },
     // 清除
     showConfirm() {
-      this.clearSearchHistory();
+      this.$refs.confirm.show();
+      // this.clearSearchHistory();
     },
     // 删除缓存
     deleteSearchHistory(item) {
@@ -99,7 +102,8 @@ export default {
   components: {
     SearchBox,
     Suggest,
-    SearchList
+    SearchList,
+    Confirm
   }
 };
 </script>
