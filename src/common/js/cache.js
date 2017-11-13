@@ -3,6 +3,9 @@ import storage from 'good-storage'
 const SEARCH_KEY = '__search__'
 const SEARCH_MAX_LEN = 15
 
+const PLAY_KEY = '__play__'
+const PLAY_MAX_LEN = 200
+
 /**
  * 插入数据
  * @param {*} arr
@@ -75,4 +78,24 @@ export function loadSearch() {
 export function clearSearch() {
   storage.remove(SEARCH_KEY)
   return []
+}
+
+/**
+ * 最近播放列表
+ */
+export function loadPlay() {
+  return storage.get(PLAY_KEY, [])
+}
+
+/**
+ * 播放历史
+ * @param {*} song
+ */
+export function savePlay(song) {
+  let songs = storage.get(PLAY_KEY, [])
+  insertArray(songs, song, (item) => {
+    return song.id === item.id
+  }, PLAY_MAX_LEN)
+  storage.set(PLAY_KEY, songs)
+  return songs
 }

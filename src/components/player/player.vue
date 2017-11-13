@@ -95,12 +95,12 @@
 </template>
 
 <script type="text/ecmascript-6">
-import { mapGetters, mapMutations } from "vuex";
+import { mapGetters, mapMutations, mapActions } from "vuex";
 import animations from "create-keyframe-animation";
 import { prefixStyle } from "common/js/dom";
 import ProgressBar from "base/progress-bar/progress-bar";
 import ProgressCircle from "base/progress-circle/progress-circle";
-import {playMode} from 'common/js/config';
+import { playMode } from "common/js/config";
 import Lyric from "lyric-parser";
 import Scroll from "base/scroll/scroll";
 import Playlist from "components/playlist/playlist";
@@ -145,11 +145,7 @@ export default {
     cdCls() {
       return this.playing ? "play" : "play pause";
     },
-    ...mapGetters([
-      "fullScreen",
-      "playing",
-      "currentIndex"
-    ])
+    ...mapGetters(["fullScreen", "playing", "currentIndex"])
   },
   created() {
     this.touch = {};
@@ -356,6 +352,7 @@ export default {
     // 播放器
     ready() {
       this.songReady = true;
+      this.savePlayHistory(this.currentSong);
     },
     // 播放器
     error() {
@@ -437,7 +434,8 @@ export default {
     // 引入
     ...mapMutations({
       setFullScreen: "SET_FULL_SCREEN"
-    })
+    }),
+    ...mapActions(["savePlayHistory"])
   },
   watch: {
     currentSong(newSong, oldSong) {

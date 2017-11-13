@@ -15,6 +15,8 @@
         <div class="list-wrapper">
           <scroll ref="songList" v-if="currentIndex===0" class="list-scroll" :data="playHistory">
             <div class="list-inner">
+              <song-list :songs="playHistory" @select="selectSong">
+              </song-list>
             </div>
           </scroll>
           <scroll :refreshDelay="refreshDelay" ref="searchList" v-if="currentIndex===1" class="list-scroll"
@@ -72,6 +74,7 @@ export default {
     ...mapGetters(["playHistory"])
   },
   methods: {
+    // 显示
     show() {
       this.showFlag = true;
       setTimeout(() => {
@@ -82,6 +85,7 @@ export default {
         }
       }, 20);
     },
+    // 隐藏
     hide() {
       this.showFlag = false;
     },
@@ -96,10 +100,18 @@ export default {
       this.$refs.topTip.show();
       this.saveSearch();
     },
+    // 选项卡
     switchItem(index) {
       this.currentIndex = index;
     },
     ...mapActions(["insertSong"])
+  },
+  watch: {
+    query(newQuery, oldQuery) {
+      if (newQuery == "") {
+        this.show();
+      }
+    }
   },
   components: {
     SearchBox,
