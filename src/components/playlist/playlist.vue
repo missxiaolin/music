@@ -36,15 +36,17 @@
         </div>
       </div>
       <confirm ref="confirm" @confirm="confirmClear" text="是否清空播放列表" confirmBtnText="清空"></confirm>
+      <add-song ref="addSong"></add-song>
     </div>
   </transition>
 </template>
 
 <script type="text/ecmascript-6">
 import { mapActions } from "vuex";
-import {playMode} from 'common/js/config';
+import { playMode } from "common/js/config";
 import Scroll from "base/scroll/scroll";
 import Confirm from "base/confirm/confirm";
+import AddSong from "components/add-song/add-song";
 
 // 公用逻辑
 import { playerMixin } from "common/js/mixin";
@@ -77,7 +79,9 @@ export default {
       }, 20);
     },
     // 添加
-    addSong() {},
+    addSong() {
+      this.$refs.addSong.show();
+    },
     // 删除
     deleteOne(item) {
       this.deleteSong(item);
@@ -137,7 +141,8 @@ export default {
   },
   components: {
     Scroll,
-    Confirm
+    Confirm,
+    AddSong
   }
 };
 </script>
