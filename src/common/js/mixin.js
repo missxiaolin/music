@@ -76,21 +76,26 @@ export const searchMixin = {
     ...mapGetters(['searchHistory'])
   },
   methods: {
+    // 拿到搜索框变化值
     onQueryChange(query) {
       this.query = query
     },
+    // 滚动时候执行
+
     blurInput() {
       this
         .$refs
         .searchBox
         .blur()
     },
+    // 热门搜索单击
     addQuery(query) {
       this
         .$refs
         .searchBox
         .setQuery(query)
     },
+    // 储存历史
     saveSearch() {
       this.saveSearchHistory(this.query)
     },

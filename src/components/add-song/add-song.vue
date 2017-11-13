@@ -91,6 +91,7 @@ export default {
         this.$refs.topTip.show();
       }
     },
+    // 记录搜索结果
     selectSuggest() {
       this.$refs.topTip.show();
       this.saveSearch();

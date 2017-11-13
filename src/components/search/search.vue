@@ -42,11 +42,11 @@ import Confirm from "base/confirm/confirm";
 import Suggest from "components/suggest/suggest";
 import { getHotKey } from "api/search";
 import { ERR_OK } from "api/config";
-import { playlistMixin } from "common/js/mixin";
-import { mapActions, mapGetters } from "vuex";
+import { playlistMixin, searchMixin } from "common/js/mixin";
+import { mapActions } from "vuex";
 
 export default {
-  mixins: [playlistMixin],
+  mixins: [playlistMixin, searchMixin],
   data() {
     return {
       hotKey: [],
@@ -57,8 +57,7 @@ export default {
     // 组合数据
     shortcut() {
       return this.hotKey.concat(this.searchHistory);
-    },
-    ...mapGetters(["searchHistory"])
+    }
   },
   created() {
     this._getHotKey();
@@ -73,10 +72,6 @@ export default {
       this.$refs.shortcut.refresh();
       this.$refs.suggest.refresh();
     },
-    // 滚动时候执行
-    blurInput() {
-      this.$refs.searchBox.blur();
-    },
     // 获取热门搜索
     _getHotKey() {
       getHotKey().then(res => {
@@ -84,18 +79,6 @@ export default {
           this.hotKey = res.data.hotkey.slice(0, 10);
         }
       });
-    },
-    // 热门搜索单击
-    addQuery(query) {
-      this.$refs.searchBox.setQuery(query);
-    },
-    // 拿到搜索框变化值
-    onQueryChange(query) {
-      this.query = query;
-    },
-    // 储存历史
-    saveSearch() {
-      this.saveSearchHistory(this.query);
     },
     // 清除
     showConfirm() {
@@ -108,8 +91,6 @@ export default {
     },
     /**@argument */
     ...mapActions([
-      "saveSearchHistory",
-      "deleteSearchHistory",
       "clearSearchHistory"
     ])
   },
