@@ -43,6 +43,11 @@ export default {
     beforeScroll: {
       type: Boolean,
       default: false
+    },
+    // 多少毫秒计算高度
+    refreshDelay:{
+      type: Number,
+      default: 20
     }
   },
   mounted() {
@@ -122,7 +127,7 @@ export default {
     data() {
       setTimeout(() => {
         this.refresh();
-      }, 20);
+      }, this.refreshDelay);
     }
   }
 };

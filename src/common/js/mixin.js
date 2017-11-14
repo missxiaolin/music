@@ -68,6 +68,9 @@ export const playerMixin = {
   }
 }
 
+/**
+ * 搜索
+ */
 export const searchMixin = {
   data() {
     return {query: '', refreshDelay: 120}
