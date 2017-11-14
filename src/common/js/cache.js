@@ -6,6 +6,8 @@ const SEARCH_MAX_LEN = 15
 const PLAY_KEY = '__play__'
 const PLAY_MAX_LEN = 200
 
+const FAVORITE_KEY = '__favorite__'
+
 /**
  * 插入数据
  * @param {*} arr
@@ -98,4 +100,8 @@ export function savePlay(song) {
   }, PLAY_MAX_LEN)
   storage.set(PLAY_KEY, songs)
   return songs
+}
+
+export function loadFavorite() {
+  return storage.get(FAVORITE_KEY, [])
 }
