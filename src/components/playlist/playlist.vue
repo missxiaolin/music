@@ -89,7 +89,6 @@ export default {
         this.hide();
       }
     },
-    toggleFavorite() {},
     // 播放歌曲
     selectItem(item, index) {
       if (this.mode === playMode.random) {
@@ -126,7 +125,6 @@ export default {
       this.deleteSongList();
       this.hide();
     },
-    getFavoriteIcon() {},
     ...mapActions(["deleteSong", "deleteSongList"])
   },
   watch: {
