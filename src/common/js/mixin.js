@@ -1,6 +1,14 @@
-import {mapActions, mapGetters, mapMutations} from 'vuex'
-import {playMode} from 'common/js/config'
-import {shuffle} from 'common/js/util'
+import {
+  mapActions,
+  mapGetters,
+  mapMutations
+} from 'vuex'
+import {
+  playMode
+} from 'common/js/config'
+import {
+  shuffle
+} from 'common/js/util'
 
 /**
  * 自适应高度
@@ -34,15 +42,30 @@ export const playerMixin = {
   computed: {
     // 播放顺序
     iconMode() {
-      return this.mode === playMode.sequence
-        ? 'icon-sequence'
-        : this.mode === playMode.loop
-          ? 'icon-loop'
-          : 'icon-random'
+      return this.mode === playMode.sequence ?
+        'icon-sequence' :
+        this.mode === playMode.loop ?
+        'icon-loop' :
+        'icon-random'
     },
-    ...mapGetters(['sequenceList', 'playlist', 'currentSong', 'mode'])
+    ...mapGetters(['sequenceList', 'playlist', 'currentSong', 'mode', 'favoriteList'])
   },
   methods: {
+    // 收藏样式
+    getFavoriteIcon(song) {
+      if (this.isFavorite(song)) {
+        return 'icon-favorite'
+      }
+      return 'icon-not-favorite'
+    },
+    // 收藏点击
+    toggleFavorite(song) {
+      if (this.isFavorite(song)) {
+        this.deleteFavoriteList(song)
+      } else {
+        this.saveFavoriteList(song)
+      }
+    },
     // 改变播放顺序
     changMode() {
       const mode = (this.mode + 1) % 3
@@ -63,8 +86,23 @@ export const playerMixin = {
       })
       this.setCurrentIndex(index)
     },
+    isFavorite(song) {
+      const index = this.favoriteList.findIndex((item) => {
+        return item.id === song.id
+      })
+      return index > -1
+    },
     // 引入
-    ...mapMutations({setPlayingState: 'SET_PLAYING_STATE', setCurrentIndex: 'SET_CURRENT_INDEX', setPlayMode: 'SET_PLAY_MODE', setPlaylist: 'SET_PLAYLIST'})
+    ...mapMutations({
+      setPlayingState: 'SET_PLAYING_STATE',
+      setCurrentIndex: 'SET_CURRENT_INDEX',
+      setPlayMode: 'SET_PLAY_MODE',
+      setPlaylist: 'SET_PLAYLIST'
+    }),
+    ...mapActions([
+      'saveFavoriteList',
+      'deleteFavoriteList'
+    ])
   }
 }
 
@@ -73,7 +111,10 @@ export const playerMixin = {
  */
 export const searchMixin = {
   data() {
-    return {query: '', refreshDelay: 120}
+    return {
+      query: '',
+      refreshDelay: 120
+    }
   },
   computed: {
     ...mapGetters(['searchHistory'])
