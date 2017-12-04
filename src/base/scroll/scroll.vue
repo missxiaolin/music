@@ -67,7 +67,8 @@ export default {
       bubbleY: 0,
       pullDownStyle: '',
       isPullingDown: false,
-      pullDownInitTop: -50
+      pullDownInitTop: -50,
+      isRebounding: false
     }
   },
   mounted() {
@@ -91,6 +92,11 @@ export default {
         this.scroll.on("touchend", pos => {
           // 下拉动作
           if (pos.y > 50) {
+            this.isRebounding = true
+            setTimeout(() => {
+              // 动画
+              this.isRebounding = false
+            },500)
             this.$emit("pulldown");
           }
         });
