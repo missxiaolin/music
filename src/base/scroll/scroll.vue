@@ -1,11 +1,17 @@
 <template>
-  <div ref="wrapper">
+  <div ref="wrapper" class="wrapper">
     <slot></slot>
+    <slot name="top">
+      <div class="pulldownWrapper" :style="pullDownStyle" v-if="pulldown && beforePullDown">
+        <bubble :y="bubbleY"></bubble>
+      </div>
+    </slot>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
 import BScroll from "better-scroll";
+import Bubble from './bubble.vue'
 
 export default {
   props: {
@@ -29,6 +35,11 @@ export default {
       type: Boolean,
       default: false
     },
+    // 是否需要下啦动画
+    beforePullDown: {
+      type: Boolean,
+      default: false
+    },
     // 是否监听滚动时间
     listenScroll: {
       type: Boolean,
@@ -48,6 +59,15 @@ export default {
     refreshDelay:{
       type: Number,
       default: 20
+    }
+  },
+  data(){
+    return {
+      // 下啦参数
+      bubbleY: 0,
+      pullDownStyle: '',
+      isPullingDown: false,
+      pullDownInitTop: -50
     }
   },
   mounted() {
@@ -79,7 +99,18 @@ export default {
       // 监听滚动事件
       if (this.listenScroll) {
         let me = this;
+
         this.scroll.on("scroll", pos => {
+          if(this.beforePullDown) {
+            me.bubbleY = Math.max(0, pos.y + this.pullDownInitTop)
+            this.pullDownStyle = `top:${Math.min(pos.y + this.pullDownInitTop, 10)}px`
+					} else {
+            me.pullDownStyle = `top:-50px`
+          }
+          if(this.isRebounding) {
+						me.pullDownStyle = `top:-50px`
+          }
+
           me.$emit("scroll", pos);
         });
       }
@@ -129,9 +160,22 @@ export default {
         this.refresh();
       }, this.refreshDelay);
     }
+  },
+  components: {
+    Bubble
   }
 };
 </script>
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
+  .wrapper{
+    position: relative;
+    .pulldownWrapper{
+      position: absolute;
+      width: 100%;
+      text-align: center;
+      top: -50px;
+      padding-bottom 20px;
+    }
+  }
 </style>

@@ -1,6 +1,14 @@
 <template>
   <div class="recommend" ref="recommend">
-    <Scroll ref="scroll" @scroll="scroll" :listen-scroll="listenScroll" :probe-type="probeType" class="recommend-content" :data="discList" :pulldown="pulldown" @pulldown="_getDiscList(true)">
+    <Scroll ref="scroll"
+    @scroll="scroll"
+    :listen-scroll="listenScroll"
+    :probe-type="probeType"
+    class="recommend-content"
+    :data="discList"
+    :pulldown="pulldown"
+    @pulldown="_getDiscList(true)"
+    :beforePullDown="beforePullDown">
       <div class="scroll-box">
         <div class="pull-down" v-show="pullDownShow">
           <loading></loading>
@@ -57,6 +65,7 @@ export default {
       recommends: [], // 推荐数据
       discList: [], // 列表
       pulldown: true,
+      beforePullDown: true,
       pullDownShow: false,
       scrollY: 0, // 滚动列表
       probeType: 3,
