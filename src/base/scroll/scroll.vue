@@ -11,7 +11,7 @@
 
 <script type="text/ecmascript-6">
 import BScroll from "better-scroll";
-import Bubble from './bubble.vue'
+import Bubble from "./bubble.vue";
 
 export default {
   props: {
@@ -56,20 +56,20 @@ export default {
       default: false
     },
     // 多少毫秒计算高度
-    refreshDelay:{
+    refreshDelay: {
       type: Number,
       default: 20
     }
   },
-  data(){
+  data() {
     return {
       // 下啦参数
       bubbleY: 0,
-      pullDownStyle: '',
+      pullDownStyle: "",
       isPullingDown: false,
       pullDownInitTop: -50,
       isRebounding: false
-    }
+    };
   },
   mounted() {
     setTimeout(() => {
@@ -92,11 +92,11 @@ export default {
         this.scroll.on("touchend", pos => {
           // 下拉动作
           if (pos.y > 50) {
-            this.isRebounding = true
+            this.isRebounding = true;
             setTimeout(() => {
               // 动画
-              this.isRebounding = false
-            },500)
+              this.isRebounding = false;
+            }, 500);
             this.$emit("pulldown");
           }
         });
@@ -107,14 +107,17 @@ export default {
         let me = this;
 
         this.scroll.on("scroll", pos => {
-          if(this.beforePullDown) {
-            me.bubbleY = Math.max(0, pos.y + this.pullDownInitTop)
-            this.pullDownStyle = `top:${Math.min(pos.y + this.pullDownInitTop, 10)}px`
-					} else {
-            me.pullDownStyle = `top:-50px`
+          if (this.beforePullDown) {
+            me.bubbleY = Math.max(0, pos.y + this.pullDownInitTop);
+            this.pullDownStyle = `top:${Math.min(
+              pos.y + this.pullDownInitTop,
+              10
+            )}px`;
+          } else {
+            me.bubbleY = 0;
           }
-          if(this.isRebounding) {
-						me.pullDownStyle = `top:-50px`
+          if (this.isRebounding) {
+            me.pullDownStyle = `top:-50px`;
           }
 
           me.$emit("scroll", pos);
@@ -174,14 +177,15 @@ export default {
 </script>
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
-  .wrapper{
-    position: relative;
-    .pulldownWrapper{
-      position: absolute;
-      width: 100%;
-      text-align: center;
-      top: -50px;
-      padding-bottom 20px;
-    }
+.wrapper {
+  position: relative;
+
+  .pulldownWrapper {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    top: -50px;
+    padding-bottom: 20px;
   }
+}
 </style>
