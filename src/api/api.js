@@ -15,7 +15,7 @@ var Api = {
         params: data,
         baseURL: that.baseURL,
         headers: {
-          'AUTH-TOKEN': "123456"
+          'AUTH-TOKEN': '123456'
         }
       }
       axios
@@ -33,11 +33,11 @@ var Api = {
       let config = {
         baseURL: that.baseURL,
         transformRequest: [function (data) {
-            return qs.stringify(data)
-          }
+          return qs.stringify(data)
+        }
         ],
         headers: {
-          'AUTH-TOKEN': "123456"
+          'AUTH-TOKEN': '123456'
         }
       }
       axios
@@ -61,15 +61,15 @@ var Api = {
       transformRequest: [function (data) {
           // 这里可以在发送请求之前对请求数据做处理，比如form-data格式化等，这里可以使用开头引入的Qs（这个模块在安装axios的时候就已经安装了，不需要另外
           // 安装）
-          data = Qs.stringify({})
-          return data
-        }
+        data = Qs.stringify({})
+        return data
+      }
       ],
 
       transformResponse: [function (data) {
           // 这里提前处理返回的数据
-          return data
-        }
+        return data
+      }
       ],
 
       // 请求头信息
@@ -82,7 +82,7 @@ var Api = {
         ID: 12345
       },
 
-      //post参数，使用axios.post(url,{},config);如果没有额外的也必须要用一个空对象，否则会报错
+      // post参数，使用axios.post(url,{},config);如果没有额外的也必须要用一个空对象，否则会报错
       data: {
         firstName: 'Fred'
       },
@@ -90,7 +90,7 @@ var Api = {
       // 设置超时时间
       timeout: 1000,
       // 返回数据类型
-      responseType: 'json', // default
+      responseType: 'json' // default
     }
   }
 }

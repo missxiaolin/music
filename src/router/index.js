@@ -2,50 +2,50 @@ import Vue from 'vue'
 import Router from 'vue-router'
 // 首页
 const recommend = (resolve) => {
-  import ('components/recommend/recommend').then((module) => {
+  import('components/recommend/recommend').then((module) => {
     resolve(module)
   })
 }
 // 歌手
 const singer = (resolve) => {
-  import ('components/singer/singer').then((module) => {
+  import('components/singer/singer').then((module) => {
     resolve(module)
   })
 }
 // 歌手详情
 const singerDetail = (resolve) => {
-  import ('components/singer-detail/singer-detail').then((module) => {
+  import('components/singer-detail/singer-detail').then((module) => {
     resolve(module)
   })
 }
 // 歌单页面
 const disc = (resolve) => {
-  import ('components/disc/disc').then((module) => {
+  import('components/disc/disc').then((module) => {
     resolve(module)
   })
 }
 // 排行榜页面
 const rank = (resolve) => {
-  import ('components/rank/rank').then((module) => {
+  import('components/rank/rank').then((module) => {
     resolve(module)
   })
 }
 // 排行榜详情
 const TopList = (resolve) => {
-  import ('components/top-list/top-list').then((module) => {
+  import('components/top-list/top-list').then((module) => {
     resolve(module)
   })
 }
 // 搜索
 const search = (resolve) => {
-  import ('components/search/search').then((module) => {
+  import('components/search/search').then((module) => {
     resolve(module)
   })
 }
 
 // 用户
 const UserCenter = (resolve) => {
-  import ('components/user-center/user-center').then((module) => {
+  import('components/user-center/user-center').then((module) => {
     resolve(module)
   })
 }

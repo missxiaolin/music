@@ -42,14 +42,14 @@
 </template>
 
 <script type="text/ecmascript-6">
-import { mapActions } from "vuex";
-import { playMode } from "common/js/config";
-import Scroll from "base/scroll/scroll";
-import Confirm from "base/confirm/confirm";
-import AddSong from "components/add-song/add-song";
+import { mapActions } from 'vuex'
+import { playMode } from 'common/js/config'
+import Scroll from 'base/scroll/scroll'
+import Confirm from 'base/confirm/confirm'
+import AddSong from 'components/add-song/add-song'
 
 // 公用逻辑
-import { playerMixin } from "common/js/mixin";
+import { playerMixin } from 'common/js/mixin'
 
 export default {
   mixins: [playerMixin],
@@ -57,84 +57,84 @@ export default {
     return {
       showFlag: false,
       refreshDelay: 120
-    };
+    }
   },
   computed: {
     modeText() {
       return this.mode === playMode.sequence
-        ? "顺序播放"
-        : this.mode === playMode.random ? "随机播放" : "单曲循环";
+        ? '顺序播放'
+        : this.mode === playMode.random ? '随机播放' : '单曲循环'
     }
   },
   methods: {
     // 关闭
     hide() {
-      this.showFlag = false;
+      this.showFlag = false
     },
     // 隐藏
     show() {
-      this.showFlag = true;
+      this.showFlag = true
       setTimeout(() => {
-        this.$refs.listContent.refresh();
-      }, 20);
+        this.$refs.listContent.refresh()
+      }, 20)
     },
     // 添加
     addSong() {
-      this.$refs.addSong.show();
+      this.$refs.addSong.show()
     },
     // 删除
     deleteOne(item) {
-      this.deleteSong(item);
+      this.deleteSong(item)
       if (!this.playlist.length) {
-        this.hide();
+        this.hide()
       }
     },
     // 播放歌曲
     selectItem(item, index) {
       if (this.mode === playMode.random) {
         index = this.playlist.findIndex(song => {
-          return song.id === item.id;
-        });
+          return song.id === item.id
+        })
       }
-      this.setCurrentIndex(index);
-      this.setPlayingState(true);
+      this.setCurrentIndex(index)
+      this.setPlayingState(true)
     },
     // 当前播放样式
     getCurrentIcon(item) {
       if (this.currentSong.id === item.id) {
-        return "icon-play";
+        return 'icon-play'
       }
-      return "";
+      return ''
     },
     // 滚动到当前播放歌曲
     scrollToCurrent(current) {
       const index = this.sequenceList.findIndex(song => {
-        return current.id === song.id;
-      });
+        return current.id === song.id
+      })
       // 滚动到列表的元素（list下的li）
       this.$refs.listContent.scrollToElement(
         this.$refs.list.$el.children[index],
         300
-      );
+      )
     },
     // 清空
     showConfirm() {
-      this.$refs.confirm.show();
+      this.$refs.confirm.show()
     },
     confirmClear() {
-      this.deleteSongList();
-      this.hide();
+      this.deleteSongList()
+      this.hide()
     },
-    ...mapActions(["deleteSong", "deleteSongList"])
+    ...mapActions(['deleteSong', 'deleteSongList'])
   },
   watch: {
     currentSong(newSong, oldSong) {
       if (!this.showFlag || newSong.id === oldSong.id) {
-        return;
+        return
       }
       setTimeout(() => {
-        this.scrollToCurrent(newSong);
-      }, 20);
+        this.scrollToCurrent(newSong)
+      }, 20)
     }
   },
   components: {
@@ -142,7 +142,7 @@ export default {
     Confirm,
     AddSong
   }
-};
+}
 </script>
 
 <style scoped lang="stylus" rel="stylesheet/stylus">

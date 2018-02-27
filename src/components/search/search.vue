@@ -35,63 +35,63 @@
 </template>
 
 <script type="text/ecmascript-6">
-import Scroll from "base/scroll/scroll";
-import SearchBox from "base/search-box/search-box";
-import SearchList from "base/search-list/search-list";
-import Confirm from "base/confirm/confirm";
-import Suggest from "components/suggest/suggest";
-import { getHotKey } from "api/search";
-import { ERR_OK } from "api/config";
-import { playlistMixin, searchMixin } from "common/js/mixin";
-import { mapActions } from "vuex";
+import Scroll from 'base/scroll/scroll'
+import SearchBox from 'base/search-box/search-box'
+import SearchList from 'base/search-list/search-list'
+import Confirm from 'base/confirm/confirm'
+import Suggest from 'components/suggest/suggest'
+import { getHotKey } from 'api/search'
+import { ERR_OK } from 'api/config'
+import { playlistMixin, searchMixin } from 'common/js/mixin'
+import { mapActions } from 'vuex'
 
 export default {
   mixins: [playlistMixin, searchMixin],
   data() {
     return {
       hotKey: [],
-      query: ""
-    };
+      query: ''
+    }
   },
   computed: {
     // 组合数据
     shortcut() {
-      return this.hotKey.concat(this.searchHistory);
+      return this.hotKey.concat(this.searchHistory)
     }
   },
   created() {
-    this._getHotKey();
+    this._getHotKey()
   },
   methods: {
     // 自适应高度
     handlePlaylist(playlist) {
-      const bottom = playlist.length > 0 ? "60px" : "";
+      const bottom = playlist.length > 0 ? '60px' : ''
 
-      this.$refs.shortcutWrapper.style.bottom = bottom;
-      this.$refs.searchResult.style.bottom = bottom;
-      this.$refs.shortcut.refresh();
-      this.$refs.suggest.refresh();
+      this.$refs.shortcutWrapper.style.bottom = bottom
+      this.$refs.searchResult.style.bottom = bottom
+      this.$refs.shortcut.refresh()
+      this.$refs.suggest.refresh()
     },
     // 获取热门搜索
     _getHotKey() {
       getHotKey().then(res => {
         if (res.code === ERR_OK) {
-          this.hotKey = res.data.hotkey.slice(0, 10);
+          this.hotKey = res.data.hotkey.slice(0, 10)
         }
-      });
+      })
     },
     // 清除
     showConfirm() {
-      this.$refs.confirm.show();
+      this.$refs.confirm.show()
       // this.clearSearchHistory();
     },
     // 删除缓存
     deleteSearchHistory(item) {
-      this.deleteSearchHistory(item);
+      this.deleteSearchHistory(item)
     },
-    /**@argument */
+    /** @argument */
     ...mapActions([
-      "clearSearchHistory"
+      'clearSearchHistory'
     ])
   },
   watch: {
@@ -99,8 +99,8 @@ export default {
     query(newQuery) {
       if (!newQuery) {
         setTimeout(() => {
-          this.$refs.shortcut.refresh();
-        }, 20);
+          this.$refs.shortcut.refresh()
+        }, 20)
       }
     }
   },
@@ -111,7 +111,7 @@ export default {
     SearchList,
     Confirm
   }
-};
+}
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">

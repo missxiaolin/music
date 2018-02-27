@@ -47,16 +47,16 @@
 
 <script type="text/ecmascript-6">
 // 轮播图组件
-import Slider from "base/slider/slider";
+import Slider from 'base/slider/slider'
 // 滚动组件
-import Scroll from "base/scroll/scroll";
+import Scroll from 'base/scroll/scroll'
 // loading 组件
-import Loading from "base/loading/loading";
-import { getRecommend, getDiscList } from "api/recommend";
-import { mapMutations } from "vuex";
-import { playlistMixin } from "common/js/mixin";
+import Loading from 'base/loading/loading'
+import { getRecommend, getDiscList } from 'api/recommend'
+import { mapMutations } from 'vuex'
+import { playlistMixin } from 'common/js/mixin'
 
-import { ERR_OK } from "api/config";
+import { ERR_OK } from 'api/config'
 
 export default {
   mixins: [playlistMixin],
@@ -70,63 +70,63 @@ export default {
       scrollY: 0, // 滚动列表
       probeType: 3,
       listenScroll: true
-    };
+    }
   },
   created() {
-    this._getRecommend();
-    this._getDiscList();
+    this._getRecommend()
+    this._getDiscList()
   },
   methods: {
     handlePlaylist(playlist) {
-      const bottom = playlist.length > 0 ? "60px" : "";
+      const bottom = playlist.length > 0 ? '60px' : ''
 
-      this.$refs.recommend.style.bottom = bottom;
-      this.$refs.scroll.refresh();
+      this.$refs.recommend.style.bottom = bottom
+      this.$refs.scroll.refresh()
     },
     // 点击歌单
     selectItem(item) {
       this.$router.push({
-        name: "disc",
+        name: 'disc',
         params: {
           id: item.dissid
         }
-      });
-      this.setDisc(item);
+      })
+      this.setDisc(item)
     },
     // 监听滚动
     scroll(pos) {
-      this.scrollY = pos.y;
+      this.scrollY = pos.y
     },
     // 轮播图数据
     _getRecommend() {
       getRecommend().then(res => {
         if (res.code === ERR_OK) {
-          this.recommends = res.data.slider;
+          this.recommends = res.data.slider
         }
-      });
+      })
     },
     // 获取歌单
     _getDiscList(pullDownShow = false) {
-      let that = this;
-      this.pullDownShow = pullDownShow;
+      let that = this
+      this.pullDownShow = pullDownShow
       getDiscList().then(res => {
         if (res.code === ERR_OK) {
-          this.discList = res.data.list;
+          this.discList = res.data.list
           setTimeout(function() {
-            that.pullDownShow = false;
-          }, 2000);
+            that.pullDownShow = false
+          }, 2000)
         }
-      });
+      })
     },
     // 监听图片
     loadImage() {
       if (!this.checkloaded) {
-        this.checkloaded = true;
-        this.$refs.scroll.refresh();
+        this.checkloaded = true
+        this.$refs.scroll.refresh()
       }
     },
     ...mapMutations({
-      setDisc: "SET_DISC"
+      setDisc: 'SET_DISC'
     })
   },
   watch: {
@@ -141,7 +141,7 @@ export default {
     Scroll,
     Loading
   }
-};
+}
 </script>
 
 <style scoped lang="stylus" rel="stylesheet/stylus">

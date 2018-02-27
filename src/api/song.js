@@ -11,7 +11,7 @@ export function getLyric(mid) {
     hostUin: 0,
     needNewCode: 0,
     categoryId: 10000000,
-    pcachetime: + new Date(),
+    pcachetime: +new Date(),
     format: 'json'
   })
 
