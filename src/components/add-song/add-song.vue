@@ -108,7 +108,7 @@ export default {
   },
   watch: {
     query(newQuery, oldQuery) {
-      if (newQuery == '') {
+      if (newQuery === '') {
         this.show()
       }
     }

@@ -42,11 +42,11 @@ export const playerMixin = {
   computed: {
     // 播放顺序
     iconMode() {
-      return this.mode === playMode.sequence ?
-        'icon-sequence' :
-        this.mode === playMode.loop ?
-        'icon-loop' :
-        'icon-random'
+      return this.mode === playMode.sequence
+        ? 'icon-sequence'
+        : this.mode === playMode.loop
+        ? 'icon-loop'
+        : 'icon-random'
     },
     ...mapGetters(['sequenceList', 'playlist', 'currentSong', 'mode', 'favoriteList'])
   },

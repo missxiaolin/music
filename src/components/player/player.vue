@@ -215,6 +215,7 @@ export default {
         Math.max(-window.innerWidth, left + deltaX)
       )
       this.touch.percent = Math.abs(offsetWidth / window.innerWidth)
+      // eslint-disable-next-line
       this.$refs.lyricList.$el.style[
         transform
       ] = `translate3d(${offsetWidth}px,0,0)`
@@ -249,6 +250,7 @@ export default {
         }
       }
       const time = 300
+      // eslint-disable-next-line
       this.$refs.lyricList.$el.style[
         transform
       ] = `translate3d(${offsetWidth}px,0,0)`
@@ -300,6 +302,7 @@ export default {
     leave(el, done) {
       this.$refs.cdWrapper.style.transition = 'all 0.4s'
       const { x, y, scale } = this._getPosAndScale()
+      // eslint-disable-next-line
       this.$refs.cdWrapper.style[
         transform
       ] = `translate3d(${x}px,${y}px,0) scale(${scale})`
@@ -320,7 +323,7 @@ export default {
         return false
       }
       let index = this.currentIndex + 1
-      if (index == this.playlist.length) {
+      if (index === this.playlist.length) {
         index = 0
       }
       this.setCurrentIndex(index)
@@ -340,7 +343,7 @@ export default {
         return false
       }
       let index = this.currentIndex - 1
-      if (index == -1) {
+      if (index === -1) {
         index = this.playlist.length - 1
       }
       this.setCurrentIndex(index)
@@ -360,7 +363,7 @@ export default {
     },
     // 播放结束
     end() {
-      if (this.mode == playMode.loop) {
+      if (this.mode === playMode.loop) {
         this.loop()
       } else {
         this.next()
