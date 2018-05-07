@@ -57,8 +57,8 @@ var webpackConfig = merge(baseWebpackConfig, {
         : config.build.index,
       template: 'index.html',
       inject: true,
-      cache: true,
-      hash: true,
+      cache: true, // 默认值是 true。表示只有在内容变化时才生成一个新的文件。
+      hash: true, // hash选项的作用是 给生成的 js 文件一个独特的 hash 值，该 hash 值是该次 webpack 编译的 hash 值。默认值为 false 。同样看一个例子。
       minify: {
         removeComments: true,
         collapseWhitespace: true,
